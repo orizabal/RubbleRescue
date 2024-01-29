@@ -30,32 +30,32 @@ void loop() {
   if (digitalRead(buttonPin) == LOW) {
     AutoCalibrate(xRaw, yRaw, zRaw);
   }  else  {
-    // Serial.print("Raw Ranges: X: ");
-    // Serial.print(xRawMin);
-    // Serial.print("-");
-    // Serial.print(xRawMax);
-    // Serial.print(", Y: ");
-    // Serial.print(yRawMin);
-    // Serial.print("-");
-    // Serial.print(yRawMax);
-    // Serial.print(", Z: ");
-    // Serial.print(zRawMin);
-    // Serial.print("-");
-    // Serial.print(zRawMax);
-    // Serial.println();
-    // Serial.print(xRaw);
-    // Serial.print(", ");
-    // Serial.print(yRaw);
-    // Serial.print(", ");
-    // Serial.print(zRaw);
-
-    Serial.print("Acceleration values: xRaw = ");
-    Serial.print(xRaw);
-    Serial.print(", yRaw = ");
-    Serial.print(yRaw);
-    Serial.print(", zRaw = ");
-    Serial.print(zRaw);
+    Serial.print("Raw Ranges: X: ");
+    Serial.print(xRawMin);
+    Serial.print("-");
+    Serial.print(xRawMax);
+    Serial.print(", Y: ");
+    Serial.print(yRawMin);
+    Serial.print("-");
+    Serial.print(yRawMax);
+    Serial.print(", Z: ");
+    Serial.print(zRawMin);
+    Serial.print("-");
+    Serial.print(zRawMax);
     Serial.println();
+    Serial.print(xRaw);
+    Serial.print(", ");
+    Serial.print(yRaw);
+    Serial.print(", ");
+    Serial.print(zRaw);
+
+    // Serial.print("Acceleration values: xRaw = ");
+    // Serial.print(xRaw);
+    // Serial.print(", yRaw = ");
+    // Serial.print(yRaw);
+    // Serial.print(", zRaw = ");
+    // Serial.print(zRaw);
+    // Serial.println();
     
     // Convert raw values to 'milli-Gs"
     long xScaled = map(xRaw, xRawMin, xRawMax, -1000, 1000);
@@ -68,18 +68,18 @@ void loop() {
     float yAccel = yScaled / 1000.0;
     float zAccel = zScaled / 1000.0;
 
-    Serial.print("Moving?: ");
-    bool moving = xAccel != 1.00 && yAccel != 1.00 && zAccel != 1.00;
+    // Serial.print("Moving?: ");
+    bool moving = xAccel != 1.00 && yAccel != 1.00;
 
-    // Serial.print(" :: ");
-    // Serial.print(xAccel);
-    // Serial.print("G, ");
-    // Serial.print(yAccel);
-    // Serial.print("G, ");
-    // Serial.print(zAccel);
-    // Serial.println("G");
-    Serial.print(moving);
-    Serial.println();
+    Serial.print(" :: ");
+    Serial.print(xAccel);
+    Serial.print("G, ");
+    Serial.print(yAccel);
+    Serial.print("G, ");
+    Serial.print(zAccel);
+    Serial.println("G");
+    // Serial.print(moving);
+    // Serial.println();
     delay(1000);
   }
 } 
