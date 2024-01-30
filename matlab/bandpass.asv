@@ -28,11 +28,7 @@ sgtitle('Comparison of Original and Filtered Sound');
 
 % print filter coefficients to use in python
 coefs = "[";
-for i=1:length(filter1coef) - 1
-    cur = string(filter1coef(i)) + ", ";
-    coefs = strcat(coefs, cur);
-end
-
-
-coefs = strcat(coefs, string(filter1coef(51))) + "]";
-disp(coefs);
+disp(string(filter1coef))
+for i=1:length(filter1coef - 2)
+    cur = string(filter1coef(i));
+    coefs +=
