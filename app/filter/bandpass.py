@@ -31,9 +31,9 @@ def main():
     fpass2 = 17000
 
     # Make some data to be filtered
-    audio = AudioSegment.from_file('midnightRun.m4a', format='m4a')
+    audio = AudioSegment.from_file('./data/midnightRun.m4a', format='m4a')
     audio.export('output.wav', format='wav')
-    sr, data = wavfile.read('output.wav')
+    sr, data = wavfile.read('./data/output.wav')
 
     # Get filter coeffs to plot freq response
     b, a = ellip_bandpass(order=order, rp=0.05, rs=100, lowcut=fstop1, highcut=fpass2, fs=sr)
