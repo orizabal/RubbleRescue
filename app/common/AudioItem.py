@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+# TODO: Remove this as we're using the DAO pattern now
 @dataclass
 class AudioItem:
     """Class for the item to be passed along the pipeline"""

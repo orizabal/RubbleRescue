@@ -1,11 +1,11 @@
 class Module:
     id: int
-    static: bool
+    referencePoint: bool
     xCoordinate: float
     yCoordinate: float
 
-    def __init__(self, id: int, static: bool, xCoordinate: float, yCoordinate: float):
+    def __init__(self, id: int, referencePoint: bool, xCoordinate: float, yCoordinate: float):
         self.id = id
-        self.static = static
+        self.referencePoint = referencePoint
         self.xCoordinate = xCoordinate
         self.yCoordinate = yCoordinate
