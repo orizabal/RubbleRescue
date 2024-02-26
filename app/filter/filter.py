@@ -1,9 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from pydub import AudioSegment
-from scipy.io import wavfile
-from scipy.signal import ellip, freqz, lfilter, butter
+from scipy.signal import ellip, freqz, lfilter
 
 def ellip_bandpass(order, rp, rs, lowcut, highcut, fs):
     # params:
@@ -22,18 +20,13 @@ def bandpass_filter(order, rp, rs, lowcut, highcut, fs, data):
     return y
 
 
-def main():
+def filter(sr, data):
     # filter values from Matlab
     order = 6
 
     # In Hz
     fstop1 = 100
     fpass2 = 17000
-
-    # Make some data to be filtered
-    audio = AudioSegment.from_file('./data/midnightRun.m4a', format='m4a')
-    audio.export('output.wav', format='wav')
-    sr, data = wavfile.read('./data/output.wav')
 
     # Get filter coeffs to plot freq response
     b, a = ellip_bandpass(order=order, rp=0.05, rs=100, lowcut=fstop1, highcut=fpass2, fs=sr)
@@ -63,9 +56,6 @@ def main():
 
     plt.subplots_adjust(hspace=0.35)
 
-    plt.show()
+    # plt.show()
 
-
-if __name__ == "__main__":
-    main()
-
+    return y
