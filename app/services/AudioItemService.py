@@ -1,4 +1,4 @@
-class FilterService:
+class AudioItemService:
     def getAudioItem(ref: str):
         pass
 

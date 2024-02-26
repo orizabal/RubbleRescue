@@ -12,9 +12,9 @@ class ModuleSubject(Subject):
     def on_next(self, audioItem: AudioItem):
         print(f"Filter: Observing event from {audioItem.moduleId}")
         # Retrieve audio data from the database
-        audio = AudioSegment.from_file('./data/midnightRun.m4a', format='m4a')
-        audio.export('./data/output.wav', format='wav')
-        sr, data = wavfile.read('./data/output.wav')
+        audio = AudioSegment.from_file('./audio_data/midnightRun.m4a', format='m4a')
+        audio.export('./audio_data/output.wav', format='wav')
+        sr, data = wavfile.read('./audio_data/output.wav')
 
         # Filter data
         filter(sr=sr, data=data)
