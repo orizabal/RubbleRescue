@@ -1,7 +1,7 @@
 import os
 import time
 
-# File name format: <timestamp_migration.sql
+# File name format: <timestamp>_migration.sql
 def main():
     # make the file name
     timestamp = str(int(time.time()))
