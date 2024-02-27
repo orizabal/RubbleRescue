@@ -1,4 +1,4 @@
-from physical_modules import ModuleEventSource
+from modules import ModuleEventSource
 from filter import ModuleSubject
 from triangulation import FilterSubject
 
