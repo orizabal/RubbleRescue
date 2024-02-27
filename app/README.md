@@ -61,6 +61,8 @@ A relational database is used to store data about the modules, potential victims
   <img src="./resources/rubble-rescue.png" width="600" title="me" alt="me">
 </p>
 
+[dbdiagram.io](https://dbdiagram.io/d/Rubble-Rescue-65dc0f005cd0412774c92799)
+
 Files for database migration, and database connection are in the `dao/db/` directory.
 
 #### Transaction Handler
