@@ -27,8 +27,7 @@ class AudioItemDaoImpl(AudioItemDao):
 
     def update(self, audioItem: AudioItem):
         # Confirm that the audio item exists
-        item = self.find_by_id(audioItem.id)
-        if item is None:
+        if self.find_by_id(audioItem.id) is None:
             print(f"ERROR: Audio Item {audioItem.id} does not exist in the database and cannot be updated.")
             return None
         else:
@@ -41,8 +40,7 @@ class AudioItemDaoImpl(AudioItemDao):
     def delete(self, audioItem: AudioItem):
         with TransactionHandler() as cursor:
             # Confirm that the audio item exists
-            item = self.find_by_id(audioItem.id)
-            if item is None:
+            if self.find_by_id(audioItem.id) is None:
                 print(f"ERROR: Audio Item {audioItem.id} does not exist in the database and cannot be deleted.")
                 return None
             else:
