@@ -5,6 +5,8 @@ This is the application portion of the Rubble Rescue project. The application wi
   <img src="./resources/map-interface.png" width="600" title="me" alt="me">
 </p>
 
+The left side of the interface shows a list of the locations of potential victims. Each item in the list is associated with a purple pin on the map. Below the list of pins is a legend for the map. The right side of the interface is a map of the rubble region where the modules are dispersed. The map also shows the user's current location.
+
 ## Implementation
 
 ### Data Flow
@@ -14,6 +16,9 @@ Data will come from the modules, pass through the bandpass filter, then be used 
 <p align="center">
   <img src="./resources/data-flow.png" width="600" title="me" alt="me">
 </p>
+
+1. Data will be passed from the Rasberry Pi via an SD card
+2. Data will be passed from the bandpass filter to the triangulation service, and finally to the UI via events (ReactiveX)
 
 
 ### Technologies
