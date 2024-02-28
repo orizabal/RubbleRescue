@@ -12,7 +12,6 @@ class TransactionHandler:
         cwd = os.getcwd()
         relativePath = "dao/db/rubble_rescue.db"
         targetPath = os.path.join(cwd, relativePath)
-        print(f"Target path: {targetPath}")
         
         self.connection = sqlite3.connect(targetPath)
         return self.connection.cursor()

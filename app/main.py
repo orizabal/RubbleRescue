@@ -1,6 +1,9 @@
 from modules import ModuleEventSource
 from filter import ModuleSubject
 from triangulation import FilterSubject
+from dao import DaoFactory
+from models import AudioItem
+import datetime
 
 def main():
     moduleEventSource = ModuleEventSource
