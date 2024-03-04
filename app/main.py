@@ -1,31 +1,57 @@
-from modules import ModuleEventSource
-from filter import ModuleSubject
-from triangulation import FilterSubject
-from dao import DaoFactory
-from models import AudioItem
-import datetime
+import sys
 
-def main():
-    moduleEventSource = ModuleEventSource
-    moduleSubject = ModuleSubject()
-    filterSubject = FilterSubject()
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
+from PyQt6.QtCore import *
 
-    # Need to add subscribe behaviour before events are re-emitted from the filter
-    moduleSubject.subscribe(
-        on_next = lambda audioItem: filterSubject.on_next(audioItem),
-        on_error = lambda e: filterSubject.on_error(e),
-        on_completed = lambda: filterSubject.on_completed()
-    )
+# Passing in sys.argv allows us to pass command line args into the app
+app = QApplication(sys.argv)
 
-    # On subscription, produce_events() is called
-    moduleEventSource.subscribe(
-        on_next = lambda audioItem: moduleSubject.on_next(audioItem),
-        on_error = lambda e: moduleSubject.on_error(e),
-        on_completed = lambda: moduleSubject.on_completed()
-    )
+class MainWindow(QMainWindow):
+    # toggled = False
+    # label = QLabel
+    # input = QLineEdit
 
-    print("Exiting.")
-    exit()
+    # arguments, key-word arguments
+    def __init__(self, *args, **kwargs):
+        super(MainWindow, self).__init__(*args, **kwargs)
 
-if __name__ == '__main__':
-    main()
+        self.setWindowTitle("Rubble Rescue")
+
+        layout = QHBoxLayout()
+        sidePanelLayout = QVBoxLayout()
+    #     self.label = QLabel(self)
+    #     self.input = QLineEdit(self)
+
+    #     closeButton = QPushButton("X", self)
+    #     closeButton.setText("X")
+    #     closeButton.move(80, 80)
+    #     closeButton.setMinimumWidth(100)
+    #     closeButton.setCheckable(True)
+    #     closeButton.clicked.connect(self.closeButtonClicked)
+
+    #     victimButton = QPushButton("Victim", self)
+    #     victimButton.setText("Victim")
+    #     victimButton.move(80, 50)
+    #     victimButton.setMinimumWidth(100)
+    #     victimButton.setCheckable(True)
+    #     victimButton.clicked.connect(self.victimClicked)
+    #     self.input.move(80, 150)
+    #     self.input.textChanged.connect(self.label.setText)
+    #     self.label.move(80, 100)
+
+    # def closeButtonClicked(self):
+    #     exit()
+    
+    # def victimClicked(self, checked):
+    #     self.toggled = checked
+    #     print(self.toggled)
+
+# create app's GUI
+window = MainWindow()
+
+# show app's GUI
+window.showMaximized()
+
+# Start the event loop
+app.exec()
