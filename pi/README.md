@@ -17,13 +17,20 @@ Navigate to **Interfacing Options** and enable I2C.
 <br/><br/>
 
 #### ii) Configure Audio Output
-Navigate to **Advanced Options** > **Audio** and select the desired output (e.g., "3.5mm jack" or "Headphones").
+Navigate to **System Options** > **Audio** and select the desired output (e.g., "3.5mm jack" or "Headphones").
 <br/><br/>
 
 #### iii) Enable SPI
 Navigate to **Interfacing Options** and enable SPI.
 <br/><br/>
 
+#### iv) Enable Wifi
+Navigate to **System Options** and enter SSID and password.
+<br/><br/>
+
+#### v) Save Changes
+Use right/left arrow keys to toggle between **Select** and **Finish** options, DO NOT hit 'esc' on keyboard
+<br/><br/>
 
 ### 2. Install Software Packages / Libraries
 #### i) Install **i2c-tools** package
@@ -34,6 +41,12 @@ sudo apt-get install -y i2c-tools
 <br/>
 
 #### ii) Install **spidev** library
+If pip for Python3 is not installed, use the following command first:
+```
+sudo apt-get update
+sudo apt-get install python3-pip
+```
+
 Install the **spidev** Python library for microphone use:
 ```
 sudo pip3 install spidev
@@ -57,6 +70,10 @@ speaker-test -t sine -f 440 -c 2
 ```
 Determine if the frequencies or channels need to be adjusted. 
 <br/><br/>
+
+### 4. Upload Updated Data-Collect Python File to Raspbery Pi
+#### i) SSH file
+Instructions TBD
 
 
 ## Demonstration Steps
