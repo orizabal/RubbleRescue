@@ -1,5 +1,6 @@
 import smbus
 import time
+import spidev
 import RPi.GPIO as GPIO
 from gpiozero import MCP3008
 import wavio
