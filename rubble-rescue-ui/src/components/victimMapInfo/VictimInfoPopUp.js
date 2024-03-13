@@ -2,8 +2,11 @@ import React from "react";
 import classes from './VictimInfoPopUp.module.css';
 
 const VictimInfoPopUp = (props) => {
+    let coords = props.coordinates.split(", ");
+    const style = {"left": Math.floor(parseFloat(coords[0])), "top": Math.floor(parseFloat(coords[1]))}
+
     return (
-        <div className={classes.PopUp}>
+        <div className={classes.PopUp} style={style}>
             <div className={classes.Header}>
                 <label className={classes.Label} >{props.victimId}</label>
                 <button onClick={props.onClose}>X</button>

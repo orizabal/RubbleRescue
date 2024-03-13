@@ -1,13 +1,24 @@
 .PopUp {
     display: flex;
     flex-direction: column;
+    width: 10vw;
+    z-index: 1;
+    position: relative;
+}
+
+.PopUp p {
+    margin: 0.5vh;
 }
 
 .Header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    background-color: grey;
+    background-color: #d6d6d6;
+    padding-left: 0.5vw;
+    padding-right: 0.5vw;
+    padding-top: 0.5vh;
+    padding-bottom: 0.5vh;
 }
 
 .Body {
