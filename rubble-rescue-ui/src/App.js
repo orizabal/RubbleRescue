@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import './App.css';
-import VictimInfoPopUp from './components/victimMapInfo/VictimInfoPopUp';
 import DeleteVictimPopUp from './components/deleteVictim/DeleteVictimPopUp';
 import SidePanel from './components/hoc/sidePanel/SidePanel';
-import Map from './components/hoc/map/Map';
+import MapComponent from './components/hoc/map/MapComponent';
 
 function App() {
   const [selectedVictim, setSelectedVictim] = useState(null);
@@ -29,7 +28,7 @@ function App() {
   return (
     <div className="App">
       <SidePanel onDelete={handleSelectDelete} onSelect={handleSelectListItem} selectedVictim={selectedVictim} />
-      <Map selectedVictim={selectedVictim} onCloseVictimInfo={closeVictimPopUp} />
+      <MapComponent selectedVictim={selectedVictim} onCloseVictimInfo={closeVictimPopUp} />
       {victimToDelete &&
         <DeleteVictimPopUp
           victimId={victimToDelete.victimId}
