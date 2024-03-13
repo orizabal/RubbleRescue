@@ -1,9 +1,12 @@
 .PopUp {
     display: flex;
     flex-direction: column;
-    width: 10vw;
+    width: 15vw;
     z-index: 1;
-    position: relative;
+    position: absolute;
+    border-style: solid;
+    border-color: #d6d6d6;
+    background-color: white;
 }
 
 .PopUp p {
@@ -25,6 +28,7 @@
     display: flex;
     flex-direction: column;
     background-color: white;
+    align-items: start;
 }
 
 .Label {

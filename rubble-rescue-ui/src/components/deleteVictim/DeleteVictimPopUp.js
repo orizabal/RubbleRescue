@@ -5,7 +5,7 @@ const DeleteVictimPopUp = (props) => {
     return (
         <div className={classes.PopUp} >
             <div className={classes.Header}>
-                    <label className={classes.Label} >{props.victimId}</label>
+                    <label className={classes.Label} >Remove victim {props.victimId} from list?</label>
                     <button onClick={props.onClose}>X</button>
             </div>
             <div className={classes.Body}>
