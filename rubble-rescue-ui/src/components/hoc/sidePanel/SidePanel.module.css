@@ -1,0 +1,12 @@
+.SidePanel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 20vw;
+}
+
+.PanelSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}

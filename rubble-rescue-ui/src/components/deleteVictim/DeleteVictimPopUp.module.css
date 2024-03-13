@@ -1,0 +1,41 @@
+.PopUp {
+    display: flex;
+    flex-direction: column;
+    width: 20vw;
+    z-index: 1;
+    position: fixed;
+    left: 40vw;
+    top: 20vh;
+}
+
+.Header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: grey;
+}
+
+.Body {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+.Label {
+    font-weight: bold;
+}
+
+.Buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: goldenrod;
+}
+
+.Coordinates {
+    font-weight: lighter;
+}
+
+.FoundAt {
+    font-weight: 100;
+}

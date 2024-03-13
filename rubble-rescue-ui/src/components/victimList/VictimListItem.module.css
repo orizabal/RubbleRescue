@@ -1,0 +1,45 @@
+.Item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #d1edff;
+    align-items: center;
+}
+
+.Selected {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: green;
+    align-items: center;
+}
+
+.Info {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: flex-start;
+    padding-left: 1vw;
+    padding-top: 0.4vh;
+    padding-bottom: 0.4vh;
+}
+
+.Info p {
+    margin: 0.25vh;
+}
+
+.Button {
+    height: 2.5vh;
+}
+
+.Label {
+    font-weight: bold;
+}
+
+.Coordinates {
+    font-weight: lighter;
+}
+
+.FoundAt {
+    font-weight: 100;
+}
