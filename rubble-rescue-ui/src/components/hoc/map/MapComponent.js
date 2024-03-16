@@ -39,15 +39,16 @@ function MapComponent(props) {
                     zoom={10}
                     onLoad={onLoad}
                     onUnmount={onUnmount}
-                />
-            }
-            {props.selectedVictim &&
-                <VictimInfoPopUp
-                    victimId={props.selectedVictim.victimId}
-                    coordinates={props.selectedVictim.coordinates}
-                    foundAt={props.selectedVictim.foundAt} 
-                    onClose={props.onCloseVictimInfo}
-                />
+                >
+                    {props.selectedVictim &&
+                        <VictimInfoPopUp
+                            victimId={props.selectedVictim.victimId}
+                            coordinates={props.selectedVictim.coordinates}
+                            foundAt={props.selectedVictim.foundAt} 
+                            onClose={props.onCloseVictimInfo}
+                        />
+                    }
+                </ GoogleMap >
             }
         </div>
     );
