@@ -3,7 +3,7 @@ import classes from './VictimListItem.module.css'
 
 // onClick={props.onSelect
 const VictimListItem = (props) => {
-    let selected = props.selectedVictim ? (props.selectedVictim.victimId == props.victimId) : false
+    let selected = props.selectedVictim ? (props.selectedVictim.victimId === props.victimId) : false
    
     return(
         <div className={selected ? classes.Selected : classes.Item} onClick={props.onSelect} >
