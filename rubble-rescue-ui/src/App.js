@@ -9,23 +9,26 @@ function App() {
   // const socket = socketIOClient('http://127.0.0.1:5000');
   const [socketInstance, setSocketInstance] = useState(null);
   useEffect(() => {
-    const socket = io('http://127.0.0.1:5000', {
+    const socket = io('127.0.0.1:5000', {
       transports: ['websocket'],
       cors: {
         origin: "http://localhost:3000/"
       }
     });
+
     setSocketInstance(socket);
 
-    socket.on('connect', (data) => {
-      console.log("Connected to server!");
-      console.log(data);
+    socket.on('connect', () => {
+      console.log("Client is connected to server!");
     });
 
-    socket.on('connect', (data) => {
-      console.log("Disconnected from server.");
-      console.log(data);
+    socket.on('disconnect', () => {
+      console.log("Client is disconnected from server.");
     });
+
+    socket.on('newData', (data) => {
+      console.log('New data from server: ' + data['newVictim']);
+    })
   }, []);
 
   const [selectedVictim, setSelectedVictim] = useState(null);
@@ -45,7 +48,6 @@ function App() {
   }
 
   function closeDeletePopUp() {
-    console.log('Emitting event!!!!!!!')
     console.log(socketInstance.emit('updateVictim', {
       victim: {
         id: 1
