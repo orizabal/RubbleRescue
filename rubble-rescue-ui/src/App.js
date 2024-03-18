@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import './App.css';
 import DeleteVictimPopUp from './components/deleteVictim/DeleteVictimPopUp';
@@ -6,8 +6,12 @@ import SidePanel from './components/hoc/sidePanel/SidePanel';
 import MapComponent from './components/hoc/map/MapComponent';
 
 function App() {
-  // const socket = socketIOClient('http://127.0.0.1:5000');
+  const [selectedVictim, setSelectedVictim] = useState(null);
+  const [victimToDelete, setVictimToDelete] = useState(null);
+  const [victims, setVictims] = useState([]);
+  const [rescuedVictims, setRescuedVictims] = useState([]);
   const [socketInstance, setSocketInstance] = useState(null);
+
   useEffect(() => {
     const socket = io('127.0.0.1:5000', {
       transports: ['websocket'],
@@ -26,13 +30,11 @@ function App() {
       console.log("Client is disconnected from server.");
     });
 
-    socket.on('newData', (data) => {
-      console.log('New data from server: ' + data['newVictim']);
-    })
+    socket.on('newVictims', (data) => {
+      console.log('New victims detected.');
+      setVictims([...victims, ...data['victims']]);
+    });
   }, []);
-
-  const [selectedVictim, setSelectedVictim] = useState(null);
-  const [victimToDelete, setVictimToDelete] = useState(null);
 
   function handleSelectListItem(victim) {
     setSelectedVictim(victim);
@@ -48,17 +50,31 @@ function App() {
   }
 
   function closeDeletePopUp() {
-    console.log(socketInstance.emit('updateVictim', {
-      victim: {
-        id: 1
-      }
-    }));
     setVictimToDelete(null);
+  }
+
+  function confirmDelete() {
+    socketInstance.emit('deleteVictim',
+    {
+      victimId: victimToDelete.victimId,
+      truePositive: victimToDelete.truePositive,
+      locationChecked: true
+    });
+
+    let indexToRemove = victims.indexOf(victimToDelete);
+    if (indexToRemove > -1) {
+      setVictims(victims.filter((v) => {return v !== victimToDelete}));
+    }
+
+    if (victimToDelete.truePositive) {
+      setRescuedVictims([...rescuedVictims, victimToDelete]);
+    }
+    closeDeletePopUp();
   }
 
   return (
     <div className="App">
-      <SidePanel onDelete={handleSelectDelete} onSelect={handleSelectListItem} selectedVictim={selectedVictim} />
+      <SidePanel onDelete={handleSelectDelete} onSelect={handleSelectListItem} selectedVictim={selectedVictim} victimsList={victims} />
       <MapComponent selectedVictim={selectedVictim} onCloseVictimInfo={closeVictimPopUp} />
       {victimToDelete &&
         <DeleteVictimPopUp
@@ -67,7 +83,7 @@ function App() {
           foundAt={victimToDelete.foundAt}
           onClose={closeDeletePopUp}
           onCancel={closeDeletePopUp}
-          onConfirm={closeDeletePopUp}
+          onConfirm={confirmDelete}
         />
       }
     </div>
