@@ -1,7 +1,7 @@
 .PopUp {
     display: flex;
     flex-direction: column;
-    width: 15vw;
+    width: 10vw;
     z-index: 1;
     position: absolute;
     border-style: solid;
@@ -22,6 +22,7 @@
     padding-right: 0.5vw;
     padding-top: 0.5vh;
     padding-bottom: 0.5vh;
+    font-size: smaller;
 }
 
 .Body {
@@ -29,6 +30,7 @@
     flex-direction: column;
     background-color: white;
     align-items: start;
+    font-size: x-small;
 }
 
 .Label {

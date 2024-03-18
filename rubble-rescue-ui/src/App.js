@@ -11,6 +11,7 @@ function App() {
   const [victims, setVictims] = useState([]);
   const [rescuedVictims, setRescuedVictims] = useState([]);
   const [socketInstance, setSocketInstance] = useState(null);
+  const [modules, setModules] = useState([]);
 
   useEffect(() => {
     const socket = io('127.0.0.1:5000', {
@@ -34,6 +35,11 @@ function App() {
       console.log('New victims detected.');
       setVictims([...victims, ...data['victims']]);
     });
+
+    socket.on('newModules', (data) => {
+      console.log('New modules detected.');
+      setModules([...modules, ...data['modules']]);
+    })
   }, []);
 
   function handleSelectListItem(victim) {
@@ -50,8 +56,8 @@ function App() {
   }
 
   function closeDeletePopUp() {
+    console.log(modules);
     setVictimToDelete(null);
-    console.log(rescuedVictims);
   }
 
   function confirmDelete(tp) {
@@ -80,7 +86,7 @@ function App() {
   return (
     <div className="App">
       <SidePanel onDelete={handleSelectDelete} onSelect={handleSelectListItem} selectedVictim={selectedVictim} victimsList={victims} />
-      <MapComponent selectedVictim={selectedVictim} onCloseVictimInfo={closeVictimPopUp} />
+      <MapComponent selectedVictim={selectedVictim} onCloseVictimInfo={closeVictimPopUp} victims={victims} />
       {victimToDelete &&
         <DeleteVictimPopUp
           victim={victimToDelete}

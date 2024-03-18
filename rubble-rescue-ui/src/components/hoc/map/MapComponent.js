@@ -1,6 +1,7 @@
 import {useState, useCallback, React, useRef} from "react";
 import {GoogleMap, useJsApiLoader} from '@react-google-maps/api';
 import VictimInfoPopUp from "../../victimMapInfo/VictimInfoPopUp";
+import Module from "../../victim/Victim";
 import classes from './Map.module.css';
 
 function MapComponent(props) {
@@ -48,6 +49,7 @@ function MapComponent(props) {
                             onClose={props.onCloseVictimInfo}
                         />
                     }
+                    { props.victims.map((v) => <Module module={v} />) }
                 </ GoogleMap >
             }
         </div>
