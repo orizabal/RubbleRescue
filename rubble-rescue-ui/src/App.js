@@ -51,24 +51,29 @@ function App() {
 
   function closeDeletePopUp() {
     setVictimToDelete(null);
+    console.log(rescuedVictims);
   }
 
-  function confirmDelete() {
+  function confirmDelete(tp) {
     socketInstance.emit('deleteVictim',
     {
       victimId: victimToDelete.victimId,
-      truePositive: victimToDelete.truePositive,
+      truePositive: tp,
       locationChecked: true
     });
 
+    let updatedVictimToDelete = {...victimToDelete, truePositive: tp};
+    setVictimToDelete(updatedVictimToDelete);
+
     let indexToRemove = victims.indexOf(victimToDelete);
     if (indexToRemove > -1) {
-      setVictims(victims.filter((v) => {return v !== victimToDelete}));
+      setVictims(victims.filter((v) => {return v.victimId != victimToDelete.victimId}));
     }
 
-    if (victimToDelete.truePositive) {
-      setRescuedVictims([...rescuedVictims, victimToDelete]);
+    if (tp) {
+      setRescuedVictims([...rescuedVictims, updatedVictimToDelete]);
     }
+
     closeDeletePopUp();
   }
 
@@ -78,9 +83,7 @@ function App() {
       <MapComponent selectedVictim={selectedVictim} onCloseVictimInfo={closeVictimPopUp} />
       {victimToDelete &&
         <DeleteVictimPopUp
-          victimId={victimToDelete.victimId}
-          coordinates={victimToDelete.coordinates}
-          foundAt={victimToDelete.foundAt}
+          victim={victimToDelete}
           onClose={closeDeletePopUp}
           onCancel={closeDeletePopUp}
           onConfirm={confirmDelete}
