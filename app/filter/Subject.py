@@ -8,7 +8,7 @@ class ModuleSubject(Subject):
     def __init__(self):
         super().__init__()
 
-    def on_next(self, audioItems: List[str]):
+    def on_next(self, audioItems: List[str], emit):
         print(f"Filter: Observing event from: {audioItems}")
         # Retrieve audio data from the database
         for idx, a in enumerate(audioItems):

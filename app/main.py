@@ -1,72 +1,23 @@
-import os
-import sys, time
 from flask import Flask, request
 from flask_socketio import SocketIO, emit
 from flask_cors import CORS
+from modules import ModuleEventSource
+from filter import ModuleSubject
+from triangulation import FilterSubject
 from dao import DaoFactory
 
-# eventlet.monkey_patch()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret'
 CORS(app, resources={r"/*":{"origins":"*"}})
 socketio = SocketIO(app, debug=False, cors_allowed_origins='*')
-
-"""
-Routes:
-- update a victim row
-"""
-victimDao = DaoFactory.createAudioItemDao()
+daoFactory = DaoFactory()
 
 # define WebSocket events that the frontend can subscribe to
 @socketio.on('connect')
 def handleConnect():
     print(f'Client {request.sid} connected')
-    emit('newVictims', {'victims': [
-        {
-            'victimId': 1,
-            'coordinates': "12.3422, 52.1232",
-            'foundAt': "15:31:02",
-            'truePositive': False
-        },
-        {
-            'victimId': 2,
-            'coordinates': "50.3422, 52.1232",
-            'foundAt': "16:31:02",
-            'truePositive': False
-        },
-        {
-            'victimId': 3,
-            'coordinates': "24.3422, 30.1232",
-            'foundAt': "05:00:02",
-            'truePositive': False
-        },
-        {
-            'victimId': 4,
-            'coordinates': "15.3422, 60.1232",
-            'foundAt': "09:21:55",
-            'truePositive': False
-        },
-        {
-            'victimId': 5,
-            'coordinates': "38.3422, 10.1232",
-            'foundAt': "00:45:02",
-            'truePositive': False
-        }]
-    })
-    emit('newModules', {'modules': [
-        {
-            'id': 1,
-            'coordinates': "60.3422, 12.1232"
-        },
-        {
-            'id': 2,
-            'coordinates': "20.3422, 70.1232"
-        },
-        {
-            'id': 3,
-            'coordinates': "45.3422, 40.1232"
-        }]
-    })
+    emitVictims()
+    emitModules()
 
 
 @socketio.on('disconnect')
@@ -78,7 +29,7 @@ def handleDisconnect():
 def updateVictim(data):
     d = data['victim']['id']
     print(f'Updating victim {d}')
-    # victimDao.update(victim)
+
 
 @socketio.on('deleteVictim')
 def deleteVictim(data):
@@ -87,9 +38,52 @@ def deleteVictim(data):
     # truePositive = data['truePositive']
     # locationChecked = data['locationChecked']
 
-    # print(f'vi: {victimId}, tp: {truePositive}, lc: {locationChecked}')'
+
+def main():
+    moduleEventSource = ModuleEventSource
+    moduleSubject = ModuleSubject()
+    filterSubject = FilterSubject()
+
+    # Need to add subscribe behaviour before events are re-emitted from the filter
+    moduleSubject.subscribe(
+        on_next = lambda audioItems: filterSubject.on_next(audioItems),
+        on_error = lambda e: filterSubject.on_error(e),
+        on_completed = lambda: filterSubject.on_completed()
+    )
+
+    # # On subscription, produce_events() is called
+    moduleEventSource.subscribe(
+        on_next = lambda audioItems: moduleSubject.on_next(audioItems, emit),
+        on_error = lambda e: moduleSubject.on_error(e),
+        on_completed = lambda: moduleSubject.on_completed()
+    )
+
+def emitVictims():
+    victimDao = daoFactory.createVictimDao()
+    dbVictims = victimDao.get_all()
+    victims = []
+    for v in dbVictims:
+        victims.append({
+            'victimId': v[0],
+            'coordinates': f'{v[1]}, {v[2]}',
+            'foundAt': v[5],
+            'truePositive': bool(v[3])
+        })
+
+    socketio.emit('newVictims', {'victims': victims})
 
 
-if __name__ == '__main__':
-    socketio.run(app=app)
-    # app.run()
+def emitModules():
+    modulesDao = daoFactory.createModuleDao()
+    dbModules = modulesDao.get_all()
+    modules = []
+    for m in dbModules:
+        modules.append({
+            'id': m[0],
+            'coordinates': f'{m[2]}, {m[3]}'
+        })
+    
+    socketio.emit('newModules', {'modules': modules})
+
+socketio.run(app=app)
+main()
