@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from scipy.signal import ellip, freqz, lfilter
+import scipy.io.wavfile as wavf
 
 def ellip_bandpass(order, rp, rs, lowcut, highcut, fs):
     # params:
@@ -20,7 +21,7 @@ def bandpass_filter(order, rp, rs, lowcut, highcut, fs, data):
     return y
 
 
-def filter(sr, data):
+def filter(sr: int, data, source: str):
     # filter values from Matlab
     order = 6
 
@@ -58,4 +59,6 @@ def filter(sr, data):
 
     # plt.show()
 
-    return y
+    # update the wav file with the filtered audio
+    wavf.write(source, sr, y)
+

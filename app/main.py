@@ -89,8 +89,6 @@ def deleteVictim(data):
 
     # print(f'vi: {victimId}, tp: {truePositive}, lc: {locationChecked}')'
 
-def main():
-
 
 if __name__ == '__main__':
     socketio.run(app=app)

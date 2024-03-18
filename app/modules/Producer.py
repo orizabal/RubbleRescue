@@ -1,7 +1,6 @@
 import os
 from reactivex import create
 import random
-import time
 from datetime import datetime
 from models import AudioItem, Module, Neighbour
 from dao import DaoFactory
@@ -15,6 +14,7 @@ def produce_events(observer, scheduler):
     modules = {} # physical_id: db_id
     groups = {} # time: [audio1, audio2, audio3]
 
+    # iterate over each file in the 'SD card' directory
     for file in os.listdir(dir):
         filename = os.fsdecode(file)
         seconds, moduleId = filename.split("_")
@@ -27,6 +27,7 @@ def produce_events(observer, scheduler):
                 yCoordinate=40.1232 + float(random.randint(0, 20))
             )
             modules[moduleId] = moduleDao.insert(module)
+            # TODO: Emit websocket event to frontend!!
         
         # insert into audio_items table
         timestamp = datetime.fromtimestamp(int(seconds))
@@ -42,7 +43,7 @@ def produce_events(observer, scheduler):
     for g in groups.values():
         print(f"[ModuleEventSource] Producing event: {g}")
         observer.on_next(g) # Emit the next event
-    observer.on_completed() # Indicte that no more events will be emitted
+    observer.on_completed() # Indicate that no more events will be emitted
 
 
 source = create(produce_events)
