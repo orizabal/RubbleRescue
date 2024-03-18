@@ -51,6 +51,17 @@ def handleConnect():
             'truePositive': False
         }]
     })
+    emit('newModules', {'modules': [
+        {
+            'coordinates': "60.3422, 12.1232"
+        },
+        {
+            'coordinates': "20.3422, 70.1232"
+        },
+        {
+            'coordinates': "45.3422, 40.1232"
+        }]
+    })
 
 
 @socketio.on('disconnect')
@@ -71,7 +82,7 @@ def deleteVictim(data):
     # truePositive = data['truePositive']
     # locationChecked = data['locationChecked']
 
-    # print(f'vi: {victimId}, tp: {truePositive}, lc: {locationChecked}')
+    # print(f'vi: {victimId}, tp: {truePositive}, lc: {locationChecked}')'
 
 if __name__ == '__main__':
     socketio.run(app=app)

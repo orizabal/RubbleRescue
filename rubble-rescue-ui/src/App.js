@@ -43,11 +43,12 @@ function App() {
   }, []);
 
   function handleSelectListItem(victim) {
-    setSelectedVictim(victim);
+    if (!victimToDelete) setSelectedVictim(victim);
   }
 
   function handleSelectDelete(e, victim) {
     e.stopPropagation();
+    setSelectedVictim(null);
     setVictimToDelete(victim);
   }
 
@@ -86,7 +87,12 @@ function App() {
   return (
     <div className="App">
       <SidePanel onDelete={handleSelectDelete} onSelect={handleSelectListItem} selectedVictim={selectedVictim} victimsList={victims} />
-      <MapComponent selectedVictim={selectedVictim} onCloseVictimInfo={closeVictimPopUp} victims={victims} />
+      <MapComponent 
+        selectedVictim={selectedVictim}
+        onCloseVictimInfo={closeVictimPopUp}
+        victims={victims} 
+        modules={modules}
+      />
       {victimToDelete &&
         <DeleteVictimPopUp
           victim={victimToDelete}
