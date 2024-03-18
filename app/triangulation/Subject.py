@@ -17,7 +17,7 @@ class FilterSubject(Subject):
         super().on_next(audioItem)
     
     def on_error(self, err):
-        print(f"Error: {err}")
+        print(f"[FilterSubject] Error: {err}")
     
     def on_completed(self):
         print("Tringulation: observer complete.")

@@ -13,11 +13,20 @@ class ModuleDaoImpl(ModuleDao):
             else:
                 return result[0]
 
+
     def get_all(self):
         with TransactionHandler() as cursor:
             query = "SELECT * FROM modules;"
             cursor.execute(query)
             return cursor.fetchall()
+
+
+    def insert(self, module: Module):
+        with TransactionHandler() as cursor:
+            query = "INSERT INTO modules (reference_point, x_coordinate, y_coordinate) VALUES (?, ?, ?);"
+            cursor.execute(query, (module.referencePoint, module.xCoordinate, module.yCoordinate))
+            return cursor.lastrowid
+
 
     def update(self, module: Module):
         # Confirm that module exists
@@ -29,6 +38,7 @@ class ModuleDaoImpl(ModuleDao):
                 query = "UPDATE modules SET reference_point = ?, x_coordinate = ?, y_coordinate = ? WHERE id = ?;"
                 # TODO: try catch
                 cursor.execute(query, (module.referencePoint, module.xCoordinate, module.yCoordinate, module.id))
+
 
     def delete(self, module: Module):
         # Confirm that module exists

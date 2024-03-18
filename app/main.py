@@ -1,3 +1,5 @@
+import os
+import sys, time
 from flask import Flask, request
 from flask_socketio import SocketIO, emit
 from flask_cors import CORS
@@ -86,6 +88,9 @@ def deleteVictim(data):
     # locationChecked = data['locationChecked']
 
     # print(f'vi: {victimId}, tp: {truePositive}, lc: {locationChecked}')'
+
+def main():
+
 
 if __name__ == '__main__':
     socketio.run(app=app)

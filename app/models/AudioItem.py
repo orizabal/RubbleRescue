@@ -25,3 +25,8 @@ class AudioItem:
         self.victimId = victimId
         self.recordedAt = recordedAt
         self.ref = ref
+    
+    def __init__(self, moduleId: int, recordedAt: str, ref: str):
+        self.moduleId = moduleId
+        self.recordedAt = recordedAt
+        self.ref = ref

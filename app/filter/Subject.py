@@ -13,11 +13,13 @@ class ModuleSubject(Subject):
         print(f"Filter: Observing event from {audioItem.moduleId}")
         # Retrieve audio data from the database
         audio = AudioSegment.from_file('./audio_data/midnightRun.m4a', format='m4a')
-        audio.export('./audio_data/output.wav', format='wav')
-        sr, data = wavfile.read('./audio_data/output.wav')
+        audio.export('./audio_data/output.wav', format='wav') # This won't be needed later as files will already be in .wav
+        samplingRate, data = wavfile.read('./audio_data/output.wav')
+        print(samplingRate)
+        print(data)
 
         # Filter data
-        filter(sr=sr, data=data)
+        filter(sr=int(samplingRate), data=data)
 
         # Update row in database
         time.sleep(1)
@@ -27,7 +29,7 @@ class ModuleSubject(Subject):
         super().on_next(audioItem)
     
     def on_error(self, err):
-        print(f"Error: {err}")
+        print(f"[ModuleSubject] Error: {err}")
     
     def on_completed(self):
         print("Filter: observer complete.")
