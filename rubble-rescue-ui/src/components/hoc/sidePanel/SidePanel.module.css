@@ -8,7 +8,7 @@
 .PanelSection {
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: flex-start;
     border-style: solid;
     border-color: #d6d6d6;
 }

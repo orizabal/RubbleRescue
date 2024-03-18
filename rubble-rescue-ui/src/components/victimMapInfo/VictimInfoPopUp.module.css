@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     width: 10vw;
-    z-index: 1;
+    z-index: 3;
     position: absolute;
     border-style: solid;
     border-color: #d6d6d6;
@@ -29,7 +29,7 @@
     display: flex;
     flex-direction: column;
     background-color: white;
-    align-items: start;
+    align-items: flex-start;
     font-size: x-small;
 }
 

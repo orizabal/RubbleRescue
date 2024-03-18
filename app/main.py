@@ -53,12 +53,15 @@ def handleConnect():
     })
     emit('newModules', {'modules': [
         {
+            'id': 1,
             'coordinates': "60.3422, 12.1232"
         },
         {
+            'id': 2,
             'coordinates': "20.3422, 70.1232"
         },
         {
+            'id': 3,
             'coordinates': "45.3422, 40.1232"
         }]
     })

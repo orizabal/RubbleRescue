@@ -57,7 +57,6 @@ function App() {
   }
 
   function closeDeletePopUp() {
-    console.log(modules);
     setVictimToDelete(null);
   }
 
@@ -74,7 +73,7 @@ function App() {
 
     let indexToRemove = victims.indexOf(victimToDelete);
     if (indexToRemove > -1) {
-      setVictims(victims.filter((v) => {return v.victimId != victimToDelete.victimId}));
+      setVictims(victims.filter((v) => {return v.victimId !== victimToDelete.victimId}));
     }
 
     if (tp) {

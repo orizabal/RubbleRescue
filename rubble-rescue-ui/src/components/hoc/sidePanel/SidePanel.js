@@ -17,13 +17,13 @@ const SidePanel = (props) => {
                         onDelete={e => props.onDelete(e, victim)}
                         onSelect={() => props.onSelect(victim)}
                         selectedVictim={props.selectedVictim}
-                        key={victim.victimId}
+                        key={victim['victimId']}
                     />
                 )}
             </div>
             <div className={classes.PanelSection}>
                 <Header title={"Legend"} />
-                {LEGEND_ITEMS.map((item) => <LegendItem {...item} key={item.src} />)}
+                {LEGEND_ITEMS.map((item) => <LegendItem {...item} key={item['src']} />)}
             </div>
         </div>
     );

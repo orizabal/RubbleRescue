@@ -8,7 +8,7 @@ const Module = (props) => {
     
     const style = {"left": left, "top": top}
 
-    return ( <img src={require('../../assets/module.png')} className={classes.Image} style={style} /> );
+    return ( <img src={require('../../assets/module.png')} className={classes.Image} style={style} alt="Module" /> );
 }
 
 export default Module;
