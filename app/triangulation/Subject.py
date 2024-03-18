@@ -1,8 +1,13 @@
 from typing import List
 from reactivex.subject import Subject
-import time
+from dao import DaoFactory
+from models import Victim
+import random
 
 class FilterSubject(Subject):    
+    daoFactory = DaoFactory()
+    victimDao = daoFactory.createVictimDao()
+
     def __init__(self):
         super().__init__()
 
@@ -10,7 +15,8 @@ class FilterSubject(Subject):
         print(f"Triangulataion: Observing event: {audioItems}")
 
         # Do work
-        time.sleep(1)
+        victim = Victim(xCoordinate=random.uniform(30.000, 80.000), yCoordinate=random.uniform(30.000, 80.000))
+        self.victimDao.insert(victim)
     
         # Re-emit event to be consumed by UI
         print(f"Triangulataion: Re-emitting event: {audioItems}")
