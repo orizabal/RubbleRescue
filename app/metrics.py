@@ -12,7 +12,3 @@ class Metrics:
 
         with self.__logFile.open('a') as f:
             f.write(f'[{datetime.now()}] {task.__name__} complete in {duration.total_seconds() * 1000} milliseconds\n')
-
-# if __name__ == '__main__':
-#     metrics = Metrics('test')
-#     metrics.trackExecutionTime(testFunction)
