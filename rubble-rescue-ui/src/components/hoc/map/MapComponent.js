@@ -1,7 +1,10 @@
-import {useState, useCallback, React, useRef} from "react";
+import {useState, useCallback, React} from "react";
 import {GoogleMap, useJsApiLoader} from '@react-google-maps/api';
 import VictimInfoPopUp from "../../victimMapInfo/VictimInfoPopUp";
+import Victim from "../../mapItems/Victim";
 import classes from './Map.module.css';
+import Module from "../../mapItems/Module";
+import User from "../../mapItems/User";
 
 function MapComponent(props) {
     const [map, setMap] = useState(null);
@@ -39,15 +42,19 @@ function MapComponent(props) {
                     zoom={10}
                     onLoad={onLoad}
                     onUnmount={onUnmount}
-                />
-            }
-            {props.selectedVictim &&
-                <VictimInfoPopUp
-                    victimId={props.selectedVictim.victimId}
-                    coordinates={props.selectedVictim.coordinates}
-                    foundAt={props.selectedVictim.foundAt} 
-                    onClose={props.onCloseVictimInfo}
-                />
+                >
+                    {props.selectedVictim &&
+                        <VictimInfoPopUp
+                            victimId={props.selectedVictim.victimId}
+                            coordinates={props.selectedVictim.coordinates}
+                            foundAt={props.selectedVictim.foundAt} 
+                            onClose={props.onCloseVictimInfo}
+                        />
+                    }
+                    { props.victims.map((v) => <Victim victim={v} key={v['victimId']} />) }
+                    { props.modules.map((m) => <Module module={m} key={m['id']} />) }
+                    <User />
+                </ GoogleMap >
             }
         </div>
     );

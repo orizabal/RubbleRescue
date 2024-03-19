@@ -25,6 +25,7 @@ class VictimDaoImpl(VictimDao):
             query = "INSERT INTO victims (x_coordinate, y_coordinate, true_positive, location_checked) VALUES (?, ?, ?, ?);"
             # TODO: try catch
             cursor.execute(query, (victim.xCoordinate, victim.yCoordinate, victim.truePositive, victim.locationChecked))
+            return cursor.lastrowid
 
     def update(self, victim: Victim):
         # Confirm that the victim exists

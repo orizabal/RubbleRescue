@@ -5,7 +5,7 @@ export const LEGEND_ITEMS = [
     },
     {
         img: 'victim.png',
-        itemName: "Past Victim"
+        itemName: "Rescued Victim"
     },
     {
         img: 'module.png',

@@ -1,5 +1,5 @@
 import React from "react";
-import {DATA} from '../../../data';
+// import {DATA} from '../../../data';
 import { LEGEND_ITEMS } from "../../legend/legendItems";
 import VictimListItem from "../../victimList/VictimListItem";
 import LegendItem from "../../legend/LegendItem";
@@ -11,19 +11,19 @@ const SidePanel = (props) => {
         <div className={classes.SidePanel}>
             <div className={classes.PanelSection}>
                 <Header title={"Locations"} />
-                {DATA.map((victim) => 
+                {props.victimsList.map((victim) => 
                     <VictimListItem
                         {...victim}
                         onDelete={e => props.onDelete(e, victim)}
                         onSelect={() => props.onSelect(victim)}
                         selectedVictim={props.selectedVictim}
-                        key={victim.victimId}
+                        key={victim['victimId']}
                     />
                 )}
             </div>
             <div className={classes.PanelSection}>
                 <Header title={"Legend"} />
-                {LEGEND_ITEMS.map((item) => <LegendItem {...item} key={item.src} />)}
+                {LEGEND_ITEMS.map((item) => <LegendItem {...item} key={item['src']} />)}
             </div>
         </div>
     );

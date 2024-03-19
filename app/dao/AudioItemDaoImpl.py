@@ -21,9 +21,10 @@ class AudioItemDaoImpl(AudioItemDao):
 
     def insert(self, audioItem: AudioItem):
         with TransactionHandler() as cursor:
-            query = "INSERT INTO audio_items (module_id, victim_id, recorded_at, ref) VALUES (?, ?, ?, ?);"
+            query = "INSERT INTO audio_items (module_id, recorded_at, ref) VALUES (?, ?, ?);"
             # TODO: try catch
-            cursor.execute(query, (audioItem.moduleId, audioItem.victimId, audioItem.recordedAt, audioItem.ref))
+            cursor.execute(query, (audioItem.moduleId, audioItem.recordedAt, audioItem.ref))
+            return cursor.lastrowid
 
     def update(self, audioItem: AudioItem):
         # Confirm that the audio item exists

@@ -13,19 +13,19 @@ export const DATA = [
  },
  {
     victimId: 3,
-    coordinates: "200.3422, 300.1232",
+    coordinates: "24.3422, 30.1232",
     foundAt: "05:00:02",
     truePositive: false
  },
  {
     victimId: 4,
-    coordinates: "150.3422, 60.1232",
+    coordinates: "15.3422, 60.1232",
     foundAt: "09:21:55",
     truePositive: false
  },
  {
     victimId: 5,
-    coordinates: "380.3422, 10.1232",
+    coordinates: "38.3422, 10.1232",
     foundAt: "00:45:02",
     truePositive: false
  },

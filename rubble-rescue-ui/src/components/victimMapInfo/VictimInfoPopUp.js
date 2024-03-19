@@ -3,7 +3,11 @@ import classes from './VictimInfoPopUp.module.css';
 
 const VictimInfoPopUp = (props) => {
     let coords = props.coordinates.split(", ");
-    const style = {"left": Math.floor(parseFloat(coords[0]) + 50), "top": Math.floor(parseFloat(coords[1] + 20))}
+    let left = `${Math.floor(parseFloat(coords[0])) + 1}%`;
+    let topVal = Math.floor(parseFloat(coords[1])) - 10;
+    let top = `${topVal < 0 ? (topVal + 14) : topVal}%`;
+    
+    const style = {"left": left, "top": top}
 
     return (
         <div className={classes.PopUp} style={style}>

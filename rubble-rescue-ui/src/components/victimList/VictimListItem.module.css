@@ -26,7 +26,7 @@
 .Info {
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: flex-start;
     padding-left: 1vw;
     padding-top: 0.4vh;
