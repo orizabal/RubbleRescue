@@ -1,7 +1,7 @@
-import matplotlib.pyplot as plt
-import numpy as np
+# import matplotlib.pyplot as plt
+# import numpy as np
 
-from scipy.signal import ellip, freqz, lfilter
+from scipy.signal import ellip, lfilter # freqz,
 import scipy.io.wavfile as wavf
 
 def ellip_bandpass(order, rp, rs, lowcut, highcut, fs):
@@ -30,35 +30,35 @@ def filter(sr: int, data, source: str):
     fpass2 = 17000
 
     # Get filter coeffs to plot freq response
-    b, a = ellip_bandpass(order=order, rp=0.05, rs=100, lowcut=fstop1, highcut=fpass2, fs=sr)
+    # b, a = ellip_bandpass(order=order, rp=0.05, rs=100, lowcut=fstop1, highcut=fpass2, fs=sr)
 
     # Plot frequency response
-    w, h = freqz(b, a, fs=sr)
+    # w, h = freqz(b, a, fs=sr)
 
-    plt.subplot(2, 1, 1)
-    plt.plot(w, np.abs(h), 'b')
-    plt.axvline(fstop1, color='r', linestyle='--')
-    plt.axvline(fpass2, color='r', linestyle='--')
-    plt.xlim(-1000, sr/2.1)
-    plt.title("Bandpass Filter Frequency Response")
-    plt.xlabel('Frequency [Hz]')
-    plt.grid()
+    # plt.subplot(3, 1, 1)
+    # plt.plot(w, np.abs(h), 'b')
+    # plt.axvline(fstop1, color='r', linestyle='--')
+    # plt.axvline(fpass2, color='r', linestyle='--')
+    # plt.xlim(-1000, sr/2.1)
+    # plt.title("Bandpass Filter Frequency Response")
+    # plt.xlabel('Frequency [Hz]')
+    # plt.grid()
 
     # Filter data
     y = bandpass_filter(order=order, rp=0.05, rs=100, lowcut=fstop1, highcut=fpass2, fs=sr, data=data)
-    length = data.shape[0] / sr
-    t = np.linspace(0., length, data.shape[0])
-    plt.subplot(2, 1, 2)
-    plt.plot(t, data, '-b', label='data')
-    plt.plot(t, y, 'g-', linewidth=2, label='filtered data')
-    plt.xlabel('Time [sec]')
-    plt.grid()
-    plt.legend()
+    # length = data.shape[0] / sr
+    # t = np.linspace(0., length, data.shape[0])
+    # plt.subplot(3, 1, 2)
+    # plt.plot(t, data, '-b', label='data')
+    # plt.plot(t, y, 'g-', linewidth=2, label='filtered data')
+    # plt.xlabel('Time [sec]')
+    # plt.grid()
+    # plt.legend()
 
-    plt.subplots_adjust(hspace=0.35)
+    # plt.subplots_adjust(hspace=0.35)
 
     # plt.show()
 
     # update the wav file with the filtered audio
     wavf.write(source, sr, y)
-
+    # return y

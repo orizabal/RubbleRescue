@@ -12,7 +12,7 @@ class ModuleSubject(Subject):
         super().__init__()
 
     def on_next(self, audioItems: List[str]):
-        print(f"Filter: Observing event from: {audioItems}")
+        # print(f"Filter: Observing event from: {audioItems}")
         # Retrieve audio data from the database
         for idx, a in enumerate(audioItems):
             audio = AudioSegment.from_file(f'../sd/{a}', format='m4a')
@@ -27,7 +27,7 @@ class ModuleSubject(Subject):
             audioItems[idx] = wavSrc
     
         # Re-emit event to be consumed by triangulation
-        print(f"Filter: Re-emitting event: {audioItems}")
+        # print(f"Filter: Re-emitting event: {audioItems}")
         super().on_next(audioItems)
     
     def on_error(self, err):

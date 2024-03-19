@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from reactivex import create
 import random
 from datetime import datetime
@@ -8,7 +9,7 @@ from dao import DaoFactory
 # This class is intended to produce events that will be consumed by
 # the bandpass filter service
 def produce_events(observer, scheduler):
-    dir = os.fsdecode('../sd')
+    dir = f'{Path(__file__).parent.parent.parent}/sd'
     moduleDao = DaoFactory.createModuleDao()
     audioItemDao = DaoFactory.createAudioItemDao()
     modules = {} # physical_id: db_id
@@ -17,6 +18,10 @@ def produce_events(observer, scheduler):
     # iterate over each file in the 'SD card' directory
     for file in os.listdir(dir):
         filename = os.fsdecode(file)
+        if (filename[0] == '.'):
+            # Filter out .DS_Store..... 
+            continue
+
         seconds, moduleId = filename.split("_")
         # insert into modules table
         if moduleId not in modules.keys():
@@ -41,7 +46,7 @@ def produce_events(observer, scheduler):
         groups[timestamp].append(filename)
     
     for g in groups.values():
-        print(f"[ModuleEventSource] Producing event: {g}")
+        # print(f"[ModuleEventSource] Producing event: {g}")
         observer.on_next(g) # Emit the next event
     observer.on_completed() # Indicate that no more events will be emitted
 

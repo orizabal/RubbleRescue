@@ -1,2 +1,5 @@
 .DS_Store
 app/venv/
+app/metrics/log
+sd/
+app/audio_data/
