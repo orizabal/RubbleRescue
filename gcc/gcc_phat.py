@@ -11,11 +11,11 @@ def gcc_phat(sig, refsig, fs=1, max_tau=None, interp=16):
 
     # lengths of each signal
     len_sig, len_refsig = len(sig), len(refsig)
-    print(f"Original length of signal: {len_sig} samples & reference signal: {len_refsig} samples")
+    #print(f"Original length of signal: {len_sig} samples & reference signal: {len_refsig} samples")
 
     # sum lengths so FFT has enough points to accommodate full length of signals when CC -> shorter length gets zeros at the end to adjust
     n = len_sig + len_refsig
-    print(f"Extended length for FFT: {n}")
+    #print(f"Extended length for FFT: {n}\n")
     
     # make sure the length for the FFT is larger or equal than len(sig) + len(refsig)
     n = sig.shape[0] + refsig.shape[0]
@@ -25,7 +25,9 @@ def gcc_phat(sig, refsig, fs=1, max_tau=None, interp=16):
     REFSIG = np.fft.rfft(refsig, n=n)
     R = SIG * np.conj(REFSIG)
 
-    cc = np.fft.irfft(R / np.abs(R), n=(interp * n))
+    # adding epsilon so that there are no cases of dividing by 0
+    epsilon = 1e-10
+    cc = np.fft.irfft(R / (np.abs(R) + epsilon), n=(interp * n))
 
     # peak detection in CC function based on current time shift
     max_shift = int(interp * n / 2)
