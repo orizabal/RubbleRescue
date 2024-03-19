@@ -5,12 +5,14 @@ from modules import ModuleEventSource
 from filter import ModuleSubject
 from triangulation import FilterSubject
 from dao import DaoFactory
+from metrics import Metrics
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret'
 CORS(app, resources={r"/*":{"origins":"*"}})
 socketio = SocketIO(app, debug=False, cors_allowed_origins='*')
 daoFactory = DaoFactory()
+metrics = Metrics("e2e")
 
 # define WebSocket events that the frontend can subscribe to
 @socketio.on('connect')
@@ -34,9 +36,6 @@ def updateVictim(data):
 @socketio.on('deleteVictim')
 def deleteVictim(data):
     print(data)
-    # victimId = data['victimId']
-    # truePositive = data['truePositive']
-    # locationChecked = data['locationChecked']
 
 
 def main():
@@ -53,7 +52,7 @@ def main():
 
     # # On subscription, produce_events() is called
     moduleEventSource.subscribe(
-        on_next = lambda audioItems: moduleSubject.on_next(audioItems, emit),
+        on_next = lambda audioItems: moduleSubject.on_next(audioItems),
         on_error = lambda e: moduleSubject.on_error(e),
         on_completed = lambda: moduleSubject.on_completed()
     )
@@ -86,4 +85,4 @@ def emitModules():
     socketio.emit('newModules', {'modules': modules})
 
 socketio.run(app=app)
-main()
+metrics.trackExecutionTime(main)

@@ -3,12 +3,15 @@ from reactivex.subject import Subject
 from .filter import filter
 from pydub import AudioSegment
 from scipy.io import wavfile
+from metrics import Metrics
 
 class ModuleSubject(Subject):    
+    metrics = Metrics("bandpass_filter")
+
     def __init__(self):
         super().__init__()
 
-    def on_next(self, audioItems: List[str], emit):
+    def on_next(self, audioItems: List[str]):
         print(f"Filter: Observing event from: {audioItems}")
         # Retrieve audio data from the database
         for idx, a in enumerate(audioItems):
@@ -18,7 +21,7 @@ class ModuleSubject(Subject):
             samplingRate, data = wavfile.read(wavSrc)
 
             # Filter data
-            filter(sr=samplingRate, data=data, source=wavSrc)
+            self.metrics.trackExecutionTime(filter, samplingRate, data, wavSrc)
 
             # update source path for re-emit
             audioItems[idx] = wavSrc
