@@ -3,3 +3,4 @@ app/venv/
 app/metrics/log
 sd/
 app/audio_data/
+app/gcc/__pycache__
