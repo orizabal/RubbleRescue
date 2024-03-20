@@ -29,7 +29,19 @@ venv\Scripts\activate
 pip install -r ./requirements.txt
 ```
 
-4. Run the Flask app
+4. Create an environment variable for Flask. This variable specifies the name of the module where the Flask application instance is located - it tells Flask which Python fle contains the application.
+m
+macOS:
+```
+export FLASK_APP=main
+```
+
+Windows:
+```
+set FLASK_APP=main
+```
+
+5. Run the Flask app
 ```
 flask run
 ```
