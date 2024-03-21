@@ -15,6 +15,8 @@ def produce_events(observer, scheduler):
     modules = {} # physical_id: db_id
     groups = {} # time: [audio1, audio2, audio3]
 
+    triangle = [[3, 44.81], [6, 50], [0, 50]]
+
     # iterate over each file in the 'SD card' directory
     for file in os.listdir(dir):
         filename = os.fsdecode(file)
@@ -28,8 +30,8 @@ def produce_events(observer, scheduler):
             module = Module(
                 physical_id=moduleId,
                 referencePoint=True,
-                xCoordinate=60.3422 + float(random.randint(0, 20)),
-                yCoordinate=40.1232 + float(random.randint(0, 20))
+                xCoordinate=triangle[len(modules)][0],
+                yCoordinate=triangle[len(modules)][1]
             )
             modules[moduleId] = moduleDao.insert(module)
             # TODO: Emit websocket event to frontend!!
