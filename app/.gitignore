@@ -1,2 +1,14 @@
 .idea
 ./venv/
+app/__pycache__
+app/audio_data
+app/models/__pycache__
+__pycache__/
+app/dao/__pycache__/
+app/dao/db/__pycache__/
+app/filter/__pycache__/
+app/metrics/__pycache__/
+app/models/__pycache__/
+app/modules/__pycache__/Producer.cpython-311.pyc
+app/modules/__pycache__/__init__.cpython-311.pyc
+app/triangulation/__pycache__/

@@ -160,15 +160,22 @@ class MicArray(object):
             # assuming DOA is the angle between the positive x-axis and the line connecting M1 and the source
             doa = np.arctan2(S_est[1], S_est[0]) * (180.0 / np.pi)
             return doa if doa >= 0 else doa + 360
+    
+    def calculate_doa_coordinates(self, doa, mic_distance):
+        # centroid of the microphone array equilateral triangle
+        M1 = np.array([0, 0])
+        M2 = np.array([mic_distance, 0])
+        M3 = np.array([mic_distance / 2, mic_distance * np.sqrt(3) / 2])
+        centroid = (M1 + M2 + M3) / 3
 
-    # def calculate_doa(self, tau, mic_distance, sound_speed=343.2):
-    #     # convert TDOA to distance difference
-    #     d = tau * sound_speed
+        # degrees to radians
+        doa_radians = np.deg2rad(doa)
 
-    #     # simplistic DOA calculation: angle relative to the line connecting the mics
-    #     # the line connecting the mics is the "baseline"
-    #     doa = np.arccos(d / mic_distance) * (180.0 / np.pi)
-    #     return doa
+        # project the DOA from the centroid
+        doa_x = centroid[0] + np.cos(doa_radians)
+        doa_y = centroid[1] + np.sin(doa_radians)
+
+        return doa_x, doa_y
 
 
 # execute only when script is run directly, not imported as a module
@@ -207,18 +214,13 @@ if __name__ == '__main__':
 
         # calculate DOA based on TDOA
         doa = mic_array.get_direction([signals[0], signals[1], signals[2]])
+        doa_coordinates = mic_array.calculate_doa_coordinates(doa, MIC_DISTANCE)
 
         end_time = time.time()
         duration = (end_time - start_time) * 1000  # convert to ms
+
         print(f"Estimated DOA from Mic 1 as Reference Baseline: {doa} degrees")
-        print(f"Processing time: {duration:.2f} ms")
-
-        # doa12 = mic_array.calculate_doa(tau12, MIC_DISTANCE)
-        # doa13 = mic_array.calculate_doa(tau13, MIC_DISTANCE)
-        # doa23 = mic_array.calculate_doa(tau23, MIC_DISTANCE)
-
-        # print(f"DOA between Mic 1 and Mic 2: {doa12} degrees")
-        # print(f"DOA between Mic 1 and Mic 3: {doa13} degrees")
-        # print(f"DOA between Mic 2 and Mic 3: {doa23} degrees")
+        print(f"Coordinates of DOA relative to microphone array centroid: {doa_coordinates}\n")
+        print(f"Processing time: {duration:.2f} ms \n")
 
  

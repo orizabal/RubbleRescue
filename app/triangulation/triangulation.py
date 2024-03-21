@@ -63,6 +63,23 @@ def _calculate_doa(tau12, tau13, tau23, mic_distance, sound_speed=343.2):
         return doa if doa >= 0 else doa + 360
 
 
+def calculate_doa_coordinates(doa, mic_distance):
+    # centroid of the microphone array equilateral triangle
+    M1 = np.array([0, 0])
+    M2 = np.array([mic_distance, 0])
+    M3 = np.array([mic_distance / 2, mic_distance * np.sqrt(3) / 2])
+    centroid = (M1 + M2 + M3) / 3
+
+    # degrees to radians
+    doa_radians = np.deg2rad(doa)
+
+    # project the DOA from the centroid
+    doa_x = centroid[0] + np.cos(doa_radians)
+    doa_y = centroid[1] + np.sin(doa_radians)
+
+    return doa_x, doa_y
+
+
 def triangulation(audioItems: List[AudioItem]):
     moduleDao = DaoFactory.createModuleDao()
     signals = _audioToNpArray(audioItems)
@@ -76,10 +93,12 @@ def triangulation(audioItems: List[AudioItem]):
 
     # calculate DOA based on TDOA
     doa = _get_direction([signals[0], signals[1], signals[2]])
+    doa_coordinates = calculate_doa_coordinates(doa, MIC_DISTANCE)
 
     # end_time = time.time()
     # duration = (end_time - start_time) * 1000  # convert to ms
     print(f"Estimated DOA from Mic 1 as Reference Baseline: {doa} degrees")
+    print(f"Coordinates of DOA relative to microphone array centroid: {doa_coordinates}\n")
     # print(f"Processing time: {duration:.2f} ms")
 
     # GETTING COORDINATES OF THE MODULES:
