@@ -26,7 +26,7 @@ const User = () => {
     
     const style = position ? {"left": `${left}%`, "top": `${top}%`} : null;
     // console.log("Current position: " + position);
-    return ( <img src={require('../../assets/you.png')} className={classes.Image} style={style} alt="User" /> );
+    return ( <img src={require('../../assets/you.png')} className={classes.Image} style={style} alt="User" /> ); // style={style}
 }
 
 export default User;

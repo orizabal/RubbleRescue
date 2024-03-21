@@ -102,9 +102,9 @@ def triangulation(audioItems: List[AudioItem]):
     # print(f"Processing time: {duration:.2f} ms")
 
     # GETTING COORDINATES OF THE MODULES:
-    coordinates = [] # [[x1, y1], [x2, y2], [x3, y3]]
-    for item in audioItems:
-        module = moduleDao.find_by_id(item.moduleId)
-        coordinates.append([module[2], module[3]])
+    # coordinates = [] # [[x1, y1], [x2, y2], [x3, y3]]
+    # for item in audioItems:
+    #     module = moduleDao.find_by_id(item.moduleId)
+    #     coordinates.append([module[2], module[3]])
     
-    print(coordinates)
+    return doa_coordinates

@@ -2,9 +2,9 @@ import React from "react";
 import classes from './Module.module.css';
 
 const Module = (props) => {
-    let coords = props.module['coordinates'].split(", ");
-    let left = `${Math.floor(parseFloat(coords[0]))}%`;
-    let top = `${Math.floor(parseFloat(coords[1]))}%`;
+    // let coords = props.module['coordinates'].split(", ");
+    let left = `${Math.floor(parseFloat(props.module['xCoordinate']))}%`;
+    let top = `${Math.floor(parseFloat(props.module['yCoordinate']))}%`;
     
     const style = {"left": left, "top": top}
 

@@ -18,8 +18,8 @@ class FilterSubject(Subject):
         # print(f"Triangulataion: Observing event: {audioItems}")
 
         # Do work
-        triangulation(audioItems)
-        victim = Victim(xCoordinate=random.uniform(30.000, 80.000), yCoordinate=random.uniform(30.000, 80.000))
+        coordinates = triangulation(audioItems)
+        victim = Victim(xCoordinate=coordinates[0], yCoordinate=coordinates[1])
         self.victimDao.insert(victim)
     
         # Re-emit event to be consumed by UI

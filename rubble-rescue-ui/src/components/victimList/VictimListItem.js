@@ -9,7 +9,7 @@ const VictimListItem = (props) => {
         <div className={selected ? classes.Selected : classes.Item} onClick={props.onSelect} >
             <div className={classes.Info} onClick={props.onSelect}>
                 <label className={classes.Label} >{props.victimId}</label>
-                <p className={classes.Coordinates} >{props.coordinates}</p>
+                <p className={classes.Coordinates} >{props.xCoordinate}, {props.yCoordinate}</p>
                 <p className={classes.FoundAt} >{props.foundAt}</p>
             </div>
             <button className={classes.Button} onClick={props.onDelete} >X</button>

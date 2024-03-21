@@ -19,8 +19,8 @@ function MapComponent(props) {
     }
 
     let center = {
-        lat: 43.65,
-        lng: -79.38
+        lat: 43.47309465699636,
+        lng: -80.53950340308066
     }
 
     const onLoad = useCallback(function callback(map) {
@@ -46,13 +46,15 @@ function MapComponent(props) {
                     {props.selectedVictim &&
                         <VictimInfoPopUp
                             victimId={props.selectedVictim.victimId}
-                            coordinates={props.selectedVictim.coordinates}
+                            xCoordinate={props.selectedVictim.xCoordinate}
+                            yCoordinate={props.selectedVictim.yCoordinate}
                             foundAt={props.selectedVictim.foundAt} 
                             onClose={props.onCloseVictimInfo}
                         />
                     }
                     { props.victims.map((v) => <Victim victim={v} key={v['victimId']} />) }
                     { props.modules.map((m) => <Module module={m} key={m['id']} />) }
+                    {/* { position && <User position={[position[0], position[1]]} /> } */}
                     <User />
                 </ GoogleMap >
             }
