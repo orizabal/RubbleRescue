@@ -3,9 +3,12 @@ import classes from './VictimInfoPopUp.module.css';
 
 const VictimInfoPopUp = (props) => {
     // let coords = props.coordinates.split(", ");
-    let left = `${Math.floor(parseFloat(props.xCoordinate)) + 1}%`;
-    let topVal = Math.floor(parseFloat(props.yCoordinate)) - 10;
-    let top = `${topVal < 0 ? (topVal + 14) : topVal}%`;
+    // let left = `${Math.floor(parseFloat(props.xCoordinate)) + 1}%`;
+    // let topVal = Math.floor(parseFloat(props.yCoordinate)) - 10;
+
+    let left = `${Math.floor(parseFloat(props.xCoordinate)) + 51.1 + 1}%`;
+    let top = `${Math.floor(parseFloat(props.yCoordinate)) + 48.5 - 11}%`;
+    // let top = `${topVal < 0 ? (topVal + 14) : topVal}%`;
     
     const style = {"left": left, "top": top}
 

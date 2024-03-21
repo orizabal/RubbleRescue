@@ -18,8 +18,8 @@ const User = () => {
         navigator.geolocation.getCurrentPosition(success, error)
     }
 
-    let left = position ? Math.floor(position[0]) : null;
-    let top = position ? Math.floor(position[1]) : null;
+    let left = position ? Math.floor(position[0])  + 8: null;
+    let top = position ? Math.floor(position[1]) + 22 : null;
 
     if (left < 0) left += 100;
     if (top < 0) top += 100;
