@@ -64,7 +64,8 @@ def emitVictims():
     for v in dbVictims:
         victims.append({
             'victimId': v[0],
-            'coordinates': f'{v[1]}, {v[2]}',
+            'xCoordinate': v[1],
+            'yCoordinate': v[2],
             'foundAt': v[5],
             'truePositive': bool(v[3])
         })
@@ -79,7 +80,8 @@ def emitModules():
     for m in dbModules:
         modules.append({
             'id': m[0],
-            'coordinates': f'{m[2]}, {m[3]}'
+            'xCoordinate': m[2],
+            'yCoordinate': m[3]
         })
     
     socketio.emit('newModules', {'modules': modules})

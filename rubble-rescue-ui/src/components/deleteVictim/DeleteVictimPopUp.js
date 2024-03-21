@@ -11,7 +11,7 @@ const DeleteVictimPopUp = (props) => {
                     <button onClick={props.onClose}>X</button>
             </div>
             <div className={classes.Body}>
-                <p className={classes.Coordinates} >Coordinates: {props.victim.coordinates}</p>
+                <p className={classes.Coordinates} >Coordinates: {props.victim.xCoordinate}, {props.victim.yCoordinate}</p>
                 <p className={classes.FoundAt} >Detected at: {props.victim.foundAt}</p>
                 <div className={classes.Check}>
                     <p>True positive?</p>
