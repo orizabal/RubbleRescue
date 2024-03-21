@@ -3,7 +3,7 @@ from models import Module
 
 class ModuleDao(ABC):
     @abstractmethod
-    def find_by_id(self, id):
+    def find_by_id(self, id) -> Module:
         pass
 
     @abstractmethod

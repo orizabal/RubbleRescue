@@ -13,10 +13,10 @@ The left side of the interface shows a list of the locations of potential victim
 2. Create and activate a virtual environment
 
 macOS:
-  ```
-  python -m venv venv
-  source venv/bin/activate
-  ```
+```
+python -m venv venv
+source venv/bin/activate
+```
 
 Windows:
 ```

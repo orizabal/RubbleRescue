@@ -33,9 +33,9 @@ class AudioItemDaoImpl(AudioItemDao):
             return None
         else:
             with TransactionHandler() as cursor:
-                query = "UPDATE audio_items SET module_id = ?, victim_id = ?, recorded_at = ?, ref = ? WHERE id = ?;"
+                query = "UPDATE audio_items SET module_id = ?, recorded_at = ?, ref = ? WHERE id = ?;"
                 # TODO: try catch
-                cursor.execute(query, (audioItem.moduleId, audioItem.victimId, audioItem.recordedAt, audioItem.ref, audioItem.id))
+                cursor.execute(query, (audioItem.moduleId, audioItem.recordedAt, audioItem.ref, audioItem.id))
 
 
     def delete(self, audioItem: AudioItem):
