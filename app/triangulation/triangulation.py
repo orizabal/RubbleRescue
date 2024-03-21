@@ -3,15 +3,17 @@ from scipy.optimize import minimize
 from scipy.io.wavfile import read
 from typing import List
 from .gcc_phat import gcc_phat 
+from models import AudioItem, Module
+from dao import DaoFactory
 
 MIC_DISTANCE = 0.23
 MAX_TDOA = MIC_DISTANCE / 343.2
 SAMPLE_RATE = 16000
 
-def _audioToNpArray(audioItems: List[str]):
+def _audioToNpArray(audioItems: List[AudioItem]):
     signals = []
-    for source in audioItems:
-        audio = read(source)
+    for item in audioItems:
+        audio = read(item.ref)
         signals.append(np.array(audio[1], dtype=np.int16))
     
     return signals
@@ -61,7 +63,8 @@ def _calculate_doa(tau12, tau13, tau23, mic_distance, sound_speed=343.2):
         return doa if doa >= 0 else doa + 360
 
 
-def triangulation(audioItems: List[str]):
+def triangulation(audioItems: List[AudioItem]):
+    moduleDao = DaoFactory.createModuleDao()
     signals = _audioToNpArray(audioItems)
     # calculate TDOA between pairs of microphones
     tau12, _ = gcc_phat(signals[0], signals[1], fs=16000, max_tau=MAX_TDOA)
@@ -78,3 +81,11 @@ def triangulation(audioItems: List[str]):
     # duration = (end_time - start_time) * 1000  # convert to ms
     print(f"Estimated DOA from Mic 1 as Reference Baseline: {doa} degrees")
     # print(f"Processing time: {duration:.2f} ms")
+
+    # GETTING COORDINATES OF THE MODULES:
+    coordinates = [] # [[x1, y1], [x2, y2], [x3, y3]]
+    for item in audioItems:
+        module = moduleDao.find_by_id(item.moduleId)
+        coordinates.append([module[2], module[3]])
+    
+    print(coordinates)

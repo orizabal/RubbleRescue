@@ -37,13 +37,14 @@ def produce_events(observer, scheduler):
         # insert into audio_items table
         timestamp = datetime.fromtimestamp(int(seconds))
         audioItem = AudioItem(moduleId=modules[moduleId], recordedAt=timestamp, ref=filename)
-        audioItemDao.insert(audioItem)
+        id = audioItemDao.insert(audioItem)
+        audioItem.id = id
 
         # put into groups of three to be passed along the pipeline
         if timestamp not in groups.keys():
             groups[timestamp] = []
         
-        groups[timestamp].append(filename)
+        groups[timestamp].append(audioItem)
     
     for g in groups.values():
         # print(f"[ModuleEventSource] Producing event: {g}")

@@ -1,7 +1,7 @@
 from typing import List
 from reactivex.subject import Subject
 from dao import DaoFactory
-from models import Victim
+from models import AudioItem, Module, Victim
 from .triangulation import triangulation
 import random
 
@@ -14,7 +14,7 @@ class FilterSubject(Subject):
     def __init__(self):
         super().__init__()
 
-    def on_next(self, audioItems: List[str]):
+    def on_next(self, audioItems: List[AudioItem]):
         # print(f"Triangulataion: Observing event: {audioItems}")
 
         # Do work

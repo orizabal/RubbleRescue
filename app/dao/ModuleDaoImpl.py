@@ -3,7 +3,7 @@ from dao.db import TransactionHandler
 from models import Module
 
 class ModuleDaoImpl(ModuleDao):
-    def find_by_id(self, id):
+    def find_by_id(self, id) -> Module:
         with TransactionHandler() as cursor:
             query = f"SELECT * FROM modules WHERE id = {id};"
             cursor.execute(query)
