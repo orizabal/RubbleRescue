@@ -3,8 +3,8 @@ import classes from './Module.module.css';
 
 const Module = (props) => {
     // let coords = props.module['coordinates'].split(", ");
-    let left = `${Math.floor(parseFloat(props.module['xCoordinate']))}%`;
-    let top = `${Math.floor(parseFloat(props.module['yCoordinate']))}%`;
+    let left = `${Math.floor(parseFloat(props.module['xCoordinate'])) + 40}%`;
+    let top = `${Math.floor(parseFloat(props.module['yCoordinate'])) - 10}%`;
     
     const style = {"left": left, "top": top}
 

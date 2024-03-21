@@ -3,8 +3,10 @@ import classes from './Victim.module.css';
 
 const Victim = (props) => {
     // let coords = props.victim['coordinates'].split(", ");
-    let left = `${Math.floor(parseFloat(props.xCoordinate))}%`;
-    let top = `${Math.floor(parseFloat(props.yCoordinate))}%`;
+    console.log(props.victim.xCoordinate);
+    console.log(props.victim.yCoordinate);
+    let left = `${Math.floor(parseFloat(props.victim.xCoordinate)) + 51.2}%`;
+    let top = `${Math.floor(parseFloat(props.victim.yCoordinate)) + 50.5}%`;
     
     const style = {"left": left, "top": top}
 
