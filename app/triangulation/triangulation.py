@@ -6,7 +6,7 @@ from .gcc_phat import gcc_phat
 from models import AudioItem, Module
 from dao import DaoFactory
 
-MIC_DISTANCE = 0.23
+MIC_DISTANCE = 0.45
 MAX_TDOA = MIC_DISTANCE / 343.2
 SAMPLE_RATE = 16000
 
