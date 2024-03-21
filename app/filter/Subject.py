@@ -24,7 +24,7 @@ class ModuleSubject(Subject):
             samplingRate, data = wavfile.read(wavSrc)
 
             # Filter data
-            self.metrics.trackExecutionTime(filter, samplingRate, data, wavSrc)
+            self.metrics.trackExecutionTime(filter, 48000, data, wavSrc)
 
             # update audioItem with wavSrc
             a.ref = wavSrc
