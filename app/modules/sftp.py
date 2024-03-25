@@ -1,8 +1,8 @@
 import pysftp
-from pysftp import Connection
+from .PsftpConnection import PsftpConnection
 
 class Sftp:
-    connection: Connection
+    connection: PsftpConnection
     host: str
     username: str
     dir: str
@@ -14,14 +14,21 @@ class Sftp:
         self.dir = dir
         self.password = password
 
+
     # Called when entering the context
     # Establishes a connection with the Pi and returns a connection
-    def __enter__(self) -> Connection:
-        self.connection = pysftp.Connection(host=self.host, username=self.username, password=self.password)
-        # cd to the directory that contains the audio files
-        self.connection.cd(self.dir)
-        return self.connection
-    
+    def __enter__(self) -> PsftpConnection:
+        try:
+            self.connection = PsftpConnection(host=self.host, username=self.username, password=self.password)
+            # cd to the directory that contains the audio files
+            self.connection.cd(self.dir)
+            return self.connection
+        except Exception as e:
+            print(e)
+            pass
+
+
     # Called when exiting the context
-    def __exit__(self):
-        self.connection.close()
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        pass
+        # self.connection.close()

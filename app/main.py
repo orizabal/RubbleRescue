@@ -8,7 +8,6 @@ from dao import DaoFactory
 from metrics import Metrics
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret'
 CORS(app, resources={r"/*":{"origins":"*"}})
 socketio = SocketIO(app, debug=False, cors_allowed_origins='*')
 daoFactory = DaoFactory()
@@ -38,25 +37,6 @@ def deleteVictim(data):
     print(data)
 
 
-def main():
-    moduleEventSource = ModuleEventSource
-    moduleSubject = ModuleSubject()
-    filterSubject = FilterSubject()
-
-    # Need to add subscribe behaviour before events are re-emitted from the filter
-    moduleSubject.subscribe(
-        on_next = lambda audioItems: filterSubject.on_next(audioItems),
-        on_error = lambda e: filterSubject.on_error(e),
-        on_completed = lambda: filterSubject.on_completed()
-    )
-
-    # # On subscription, produce_events() is called
-    moduleEventSource.subscribe(
-        on_next = lambda audioItems: moduleSubject.on_next(audioItems),
-        on_error = lambda e: moduleSubject.on_error(e),
-        on_completed = lambda: moduleSubject.on_completed()
-    )
-
 def emitVictims():
     victimDao = daoFactory.createVictimDao()
     dbVictims = victimDao.get_all()
@@ -85,6 +65,27 @@ def emitModules():
         })
     
     socketio.emit('newModules', {'modules': modules})
+
+
+def main():
+    moduleEventSource = ModuleEventSource
+    moduleSubject = ModuleSubject()
+    filterSubject = FilterSubject()
+
+    # Need to add subscribe behaviour before events are re-emitted from the filter
+    moduleSubject.subscribe(
+        on_next = lambda audioItems: filterSubject.on_next(audioItems),
+        on_error = lambda e: filterSubject.on_error(e),
+        on_completed = lambda: filterSubject.on_completed()
+    )
+
+    # # On subscription, produce_events() is called
+    moduleEventSource.subscribe(
+        on_next = lambda audioItems: moduleSubject.on_next(audioItems),
+        on_error = lambda e: moduleSubject.on_error(e),
+        on_completed = lambda: moduleSubject.on_completed()
+    )
+
 
 socketio.run(app=app)
 metrics.trackExecutionTime(main)

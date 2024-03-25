@@ -1,14 +1,31 @@
 import os
 from pathlib import Path
 from reactivex import create
-import random
 from datetime import datetime
-from models import AudioItem, Module, Neighbour
+from models import AudioItem, Module
 from dao import DaoFactory
+from .Sftp import Sftp
+
+def getArgs() -> tuple[str, str, str, str]:
+    piHost, piUser, piDir, piPass = None, None, None, None
+
+    piHost =  str(input("Enter the host: "))
+    piUser = str(input("Enter the user: "))
+    piDir  = str(input("Enter the directory: "))
+    piPass = str(input("Enter the password: "))
+
+    return (piHost, piUser, piDir, piPass)
+
 
 # This class is intended to produce events that will be consumed by
 # the bandpass filter service
 def produce_events(observer, scheduler):
+    piHost, piUser, piDir, piPass = getArgs()
+
+    with Sftp(host=piHost, username=piUser, dir=piDir, piPass=piPass) as connection:
+        print("[PySFTP]: Doing work...")
+        pass
+
     dir = f'{Path(__file__).parent.parent.parent}/sd'
     moduleDao = DaoFactory.createModuleDao()
     audioItemDao = DaoFactory.createAudioItemDao()
@@ -20,8 +37,7 @@ def produce_events(observer, scheduler):
     # iterate over each file in the 'SD card' directory
     for file in os.listdir(dir):
         filename = os.fsdecode(file)
-        if (filename[0] == '.'):
-            # Filter out .DS_Store..... 
+        if (filename[0] == '.'): # Filter out .DS_Store..... 
             continue
 
         seconds, moduleId = filename.split("_")
@@ -48,6 +64,7 @@ def produce_events(observer, scheduler):
         groups[timestamp].append(audioItem)
     
     for g in groups.values():
+        print("Now emitting events")
         # print(f"[ModuleEventSource] Producing event: {g}")
         observer.on_next(g) # Emit the next event
     observer.on_completed() # Indicate that no more events will be emitted
