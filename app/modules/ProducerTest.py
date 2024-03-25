@@ -5,25 +5,27 @@ from datetime import datetime
 from models import AudioItem, Module
 from dao import DaoFactory
 from .Sftp import Sftp
+from .Paramiko import Paramiko
 
-def getArgs() -> tuple[str, str, str, str]:
+def getArgs() -> tuple[str, str, str, str, str]:
     piHost, piUser, piDir, piPass = None, None, None, None
 
-    piHost =  str(input("Enter the host: "))
+    piHost = str(input("Enter the host: "))
+    piPort = str(input("Enter the port: "))
     piUser = str(input("Enter the user: "))
     piDir  = str(input("Enter the directory: "))
     piPass = str(input("Enter the password: "))
 
-    return (piHost, piUser, piDir, piPass)
+    return (piHost, piPort, piUser, piDir, piPass)
 
 
 # This class is intended to produce events that will be consumed by
 # the bandpass filter service
 def produce_events(observer, scheduler):
-    piHost, piUser, piDir, piPass = getArgs()
+    piHost, piPort, piUser, piDir, piPass = getArgs()
 
-    with Sftp(host=piHost, username=piUser, dir=piDir, piPass=piPass) as connection:
-        print("[PySFTP]: Doing work...")
+    with Paramiko(host=piHost, port=piPort, user=piUser, dir=piDir, password=piPass) as client:
+        print("[Paramiko]: Doing work...")
         pass
 
     dir = f'{Path(__file__).parent.parent.parent}/sd'
