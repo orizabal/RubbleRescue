@@ -1,0 +1,13 @@
+.LegendItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1vw;
+    padding-left: 1vw;
+}
+
+.Image {
+    width: 20px;
+    height: 20px
+}

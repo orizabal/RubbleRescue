@@ -1,0 +1,54 @@
+.Item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-style: solid;
+    border-top: 0;
+    border-right: 0;
+    border-color: #d6d6d6;
+    padding-right: 1vh;
+}
+
+.Selected {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #cbf5d8;
+    align-items: center;
+    padding-right: 1vh;
+    border-style: solid;
+    border-top: 0;
+    border-right: 0;
+    border-color: #d6d6d6;
+}
+
+.Info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-left: 1vw;
+    padding-top: 0.4vh;
+    padding-bottom: 0.4vh;
+}
+
+.Info p {
+    margin: 0.25vh;
+}
+
+.Button {
+    height: 2.5vh;
+}
+
+.Label {
+    font-weight: bold;
+}
+
+.Coordinates {
+    font-weight: lighter;
+}
+
+.FoundAt {
+    font-weight: 100;
+}

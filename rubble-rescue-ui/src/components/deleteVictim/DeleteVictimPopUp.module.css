@@ -1,0 +1,61 @@
+.PopUp {
+    display: flex;
+    flex-direction: column;
+    width: 20vw;
+    z-index: 2;
+    position: fixed;
+    left: 40vw;
+    top: 20vh;
+    border-style: solid;
+    border-color: #d6d6d6;
+    background-color: white;
+}
+
+.PopUp p {
+    margin: 1vh;
+}
+
+.Header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #d6d6d6;
+    padding-left: 0.5vw;
+    padding-right: 0.5vw;
+    padding-top: 0.5vh;
+    padding-bottom: 0.5vh;
+}
+
+.Body {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    align-items: flex-start;
+    padding-left: 1vw;
+}
+
+.Label {
+    font-weight: bold;
+}
+
+.Check {
+    display: flex;
+    flex-direction: row;
+}
+
+.Buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2vw;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+}
+
+.Coordinates {
+    font-weight: lighter;
+}
+
+.FoundAt {
+    font-weight: 100;
+}

@@ -1,57 +1,91 @@
-import sys
+from flask import Flask, request
+from flask_socketio import SocketIO, emit
+from flask_cors import CORS
+from modules import ModuleEventSource
+from filter import ModuleSubject
+from triangulation import FilterSubject
+from dao import DaoFactory
+from metrics import Metrics
 
-from PyQt6.QtGui import *
-from PyQt6.QtWidgets import *
-from PyQt6.QtCore import *
+app = Flask(__name__)
+CORS(app, resources={r"/*":{"origins":"*"}})
+socketio = SocketIO(app, debug=False, cors_allowed_origins='*')
+daoFactory = DaoFactory()
+metrics = Metrics("e2e")
 
-# Passing in sys.argv allows us to pass command line args into the app
-app = QApplication(sys.argv)
+# define WebSocket events that the frontend can subscribe to
+@socketio.on('connect')
+def handleConnect():
+    print(f'Client {request.sid} connected')
+    emitVictims()
+    emitModules()
 
-class MainWindow(QMainWindow):
-    # toggled = False
-    # label = QLabel
-    # input = QLineEdit
 
-    # arguments, key-word arguments
-    def __init__(self, *args, **kwargs):
-        super(MainWindow, self).__init__(*args, **kwargs)
+@socketio.on('disconnect')
+def handleDisconnect():
+    print('Client disconnected')
 
-        self.setWindowTitle("Rubble Rescue")
 
-        layout = QHBoxLayout()
-        sidePanelLayout = QVBoxLayout()
-    #     self.label = QLabel(self)
-    #     self.input = QLineEdit(self)
+@socketio.on('updateVictim')
+def updateVictim(data):
+    d = data['victim']['id']
+    print(f'Updating victim {d}')
 
-    #     closeButton = QPushButton("X", self)
-    #     closeButton.setText("X")
-    #     closeButton.move(80, 80)
-    #     closeButton.setMinimumWidth(100)
-    #     closeButton.setCheckable(True)
-    #     closeButton.clicked.connect(self.closeButtonClicked)
 
-    #     victimButton = QPushButton("Victim", self)
-    #     victimButton.setText("Victim")
-    #     victimButton.move(80, 50)
-    #     victimButton.setMinimumWidth(100)
-    #     victimButton.setCheckable(True)
-    #     victimButton.clicked.connect(self.victimClicked)
-    #     self.input.move(80, 150)
-    #     self.input.textChanged.connect(self.label.setText)
-    #     self.label.move(80, 100)
+@socketio.on('deleteVictim')
+def deleteVictim(data):
+    print(data)
 
-    # def closeButtonClicked(self):
-    #     exit()
+
+def emitVictims():
+    victimDao = daoFactory.createVictimDao()
+    dbVictims = victimDao.get_all()
+    victims = []
+    for v in dbVictims:
+        victims.append({
+            'victimId': v[0],
+            'xCoordinate': v[1],
+            'yCoordinate': v[2],
+            'foundAt': v[5],
+            'truePositive': bool(v[3])
+        })
+
+    socketio.emit('newVictims', {'victims': victims})
+
+
+def emitModules():
+    modulesDao = daoFactory.createModuleDao()
+    dbModules = modulesDao.get_all()
+    modules = []
+    for m in dbModules:
+        modules.append({
+            'id': m[0],
+            'xCoordinate': m[2],
+            'yCoordinate': m[3]
+        })
     
-    # def victimClicked(self, checked):
-    #     self.toggled = checked
-    #     print(self.toggled)
+    socketio.emit('newModules', {'modules': modules})
 
-# create app's GUI
-window = MainWindow()
 
-# show app's GUI
-window.showMaximized()
+def main():
+    moduleEventSource = ModuleEventSource
+    moduleSubject = ModuleSubject()
+    filterSubject = FilterSubject()
 
-# Start the event loop
-app.exec()
+    # Need to add subscribe behaviour before events are re-emitted from the filter
+    moduleSubject.subscribe(
+        on_next = lambda audioItems: filterSubject.on_next(audioItems),
+        on_error = lambda e: filterSubject.on_error(e),
+        on_completed = lambda: filterSubject.on_completed()
+    )
+
+    # # On subscription, produce_events() is called
+    moduleEventSource.subscribe(
+        on_next = lambda audioItems: moduleSubject.on_next(audioItems),
+        on_error = lambda e: moduleSubject.on_error(e),
+        on_completed = lambda: moduleSubject.on_completed()
+    )
+
+
+socketio.run(app=app)
+metrics.trackExecutionTime(main)

@@ -1,0 +1,14 @@
+.SidePanel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 20vw;
+}
+
+.PanelSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-style: solid;
+    border-color: #d6d6d6;
+}

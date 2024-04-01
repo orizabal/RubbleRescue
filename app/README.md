@@ -7,6 +7,45 @@ This is the application portion of the Rubble Rescue project. The application wi
 
 The left side of the interface shows a list of the locations of potential victims. Each item in the list is associated with a purple pin on the map. Below the list of pins is a legend for the map. The right side of the interface is a map of the rubble region where the modules are dispersed. The map also shows the user's current location.
 
+## Running the Application
+> 🚨 I haven't tested these instructions on Windows yet
+1. Navigate to the `app` directory
+2. Create and activate a virtual environment
+
+macOS:
+```
+python -m venv venv
+source venv/bin/activate
+```
+
+Windows:
+```
+python -m venv venv
+venv\Scripts\activate
+```
+
+3. Install dependencies
+```
+pip install -r ./requirements.txt
+```
+
+4. Create an environment variable for Flask. This variable specifies the name of the module where the Flask application instance is located - it tells Flask which Python fle contains the application.
+m
+macOS:
+```
+export FLASK_APP=main
+```
+
+Windows:
+```
+set FLASK_APP=main
+```
+
+5. Run the Flask app
+```
+flask run
+```
+
 ## Implementation
 
 ### Data Flow

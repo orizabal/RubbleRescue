@@ -1,0 +1,6 @@
+.Image {
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    z-index: 2;
+}
