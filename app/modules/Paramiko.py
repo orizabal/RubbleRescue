@@ -21,7 +21,6 @@ class Paramiko:
         self.dir = dir
         self.password = password
 
-
     # Called when entering the context
     # Establishes a connection with the Pi and returns a connection
     def __enter__(self) -> SFTPClient:

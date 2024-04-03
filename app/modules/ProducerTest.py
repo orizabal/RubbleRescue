@@ -4,7 +4,6 @@ from reactivex import create
 from datetime import datetime
 from models import AudioItem, Module
 from dao import DaoFactory
-from .Sftp import Sftp
 from .Paramiko import Paramiko
 
 def getArgs() -> tuple[str, str, str, str, str]:
