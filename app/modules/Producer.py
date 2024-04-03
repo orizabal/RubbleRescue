@@ -1,9 +1,8 @@
 import os
 from pathlib import Path
 from reactivex import create
-import random
 from datetime import datetime
-from models import AudioItem, Module, Neighbour
+from models import AudioItem, Module
 from dao import DaoFactory
 
 # This class is intended to produce events that will be consumed by
@@ -20,8 +19,7 @@ def produce_events(observer, scheduler):
     # iterate over each file in the 'SD card' directory
     for file in os.listdir(dir):
         filename = os.fsdecode(file)
-        if (filename[0] == '.'):
-            # Filter out .DS_Store..... 
+        if (filename[0] == '.'): # Filter out .DS_Store...
             continue
 
         seconds, moduleId = filename.split("_")
