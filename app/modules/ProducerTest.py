@@ -5,6 +5,7 @@ from datetime import datetime
 from models import AudioItem, Module
 from dao import DaoFactory
 from .Paramiko import Paramiko
+from watchdog.observers import Observer
 
 def getArgs() -> tuple[str, str, str, str, str]:
     piHost, piUser, piDir, piPass = None, None, None, None
@@ -17,26 +18,32 @@ def getArgs() -> tuple[str, str, str, str, str]:
 
     return (piHost, piPort, piUser, piDir, piPass)
 
-
 # This class is intended to produce events that will be consumed by
 # the bandpass filter service
 def produce_events(observer, scheduler):
     piHost, piPort, piUser, piDir, piPass = getArgs()
-
+    localAudiodir = f'{Path(__file__).parent.parent.parent}/sd'
+    triangle = [[3, 44.81], [6, 50], [0, 50]]
+    
+    # Get files from Pi
     with Paramiko(host=piHost, port=piPort, user=piUser, dir=piDir, password=piPass) as client:
-        print("[Paramiko]: Doing work...")
-        pass
+        # This will run any time there is a new file added in the Pi directory
+        def newFileHandler(event):
+            if event.event_type == 'created':
+                client.get(event.src_path, localAudiodir)
 
-    dir = f'{Path(__file__).parent.parent.parent}/sd'
+        # Initialize and start Observer (to watch Pi directory)
+        observer = Observer()
+        observer.schedule(newFileHandler, 'pi/path/to/audio/', recursive=True)
+        observer.start()
+
     moduleDao = DaoFactory.createModuleDao()
     audioItemDao = DaoFactory.createAudioItemDao()
     modules = {} # physical_id: db_id
     groups = {} # time: [audio1, audio2, audio3]
 
-    triangle = [[3, 44.81], [6, 50], [0, 50]]
-
     # iterate over each file in the 'SD card' directory
-    for file in os.listdir(dir):
+    for file in os.listdir(localAudiodir):
         filename = os.fsdecode(file)
         if (filename[0] == '.'): # Filter out .DS_Store..... 
             continue
