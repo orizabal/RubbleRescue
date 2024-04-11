@@ -15,6 +15,7 @@ class FilterSubject(Subject):
         super().__init__()
 
     def on_next(self, audioItems: List[AudioItem]):
+        print("[Triangulation] Received audio item")
         coordinates = triangulation(audioItems)
         victim = Victim(xCoordinate=coordinates[0], yCoordinate=coordinates[1])
         self.victimDao.insert(victim)

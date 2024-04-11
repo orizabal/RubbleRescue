@@ -7,9 +7,10 @@ from scipy.io import wavfile
 from metrics import Metrics
 from models import AudioItem
 from dao import DaoFactory
+import threading
 
 class ModuleSubject(Subject):    
-    metrics = Metrics("bandpass_filter")
+    metrics = Metrics("multithreaded_filter")
     audioItemDao = DaoFactory.createAudioItemDao()
 
     def __init__(self):
@@ -19,20 +20,25 @@ class ModuleSubject(Subject):
         pool = concurrent.futures.ThreadPoolExecutor(max_workers=3)
 
         def processAudio(a: AudioItem):
-            audio = AudioSegment.from_file(f'./audio_data/{a.ref}', format='wav')
-            _, data = wavfile.read(audio)
+            # print(f"Thread {threading.current_thread().ident} filtering audio")
+            # audio = AudioSegment.from_file(f'./audio_data/{a.ref}.wav', format='wav')
+            audioPath = f'./audio_data/{a.ref}.wav'
+            _, data = wavfile.read(audioPath)
             # Filter data
-            self.metrics.trackExecutionTime(filter, 48000, data, audio)
+            filter(48000, data, audioPath)
 
             # update audioItem with audio
-            a.ref = audio
+            a.ref = audioPath
             self.audioItemDao.update(a)
-    
-        for a in audioItems:
-            pool.submit(processAudio(a))
-    
-        # Wait for threads to finish
-        pool.shutdown(wait=True)
+        
+        def threadedProcess():
+            for a in audioItems:
+                pool.submit(processAudio(a))
+
+            # Wait for threads to finish
+            pool.shutdown(wait=True)
+
+        self.metrics.trackExecutionTime(threadedProcess)
         
         # Re-emit event to be consumed by triangulation
         super().on_next(audioItems)
