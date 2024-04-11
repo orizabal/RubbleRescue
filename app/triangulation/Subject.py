@@ -15,15 +15,11 @@ class FilterSubject(Subject):
         super().__init__()
 
     def on_next(self, audioItems: List[AudioItem]):
-        # print(f"Triangulataion: Observing event: {audioItems}")
-
-        # Do work
         coordinates = triangulation(audioItems)
         victim = Victim(xCoordinate=coordinates[0], yCoordinate=coordinates[1])
         self.victimDao.insert(victim)
     
         # Re-emit event to be consumed by UI
-        # print(f"Triangulataion: Re-emitting event: {audioItems}")
         super().on_next(audioItems)
     
     def on_error(self, err):
