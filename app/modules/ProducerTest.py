@@ -9,7 +9,6 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEvent, LoggingEventHandler
 import numpy as np
 from scipy.io.wavfile import write
-import cProfile
 
 class EventHandler(LoggingEventHandler):
     triangle = [[3, 44.81], [6, 50], [0, 50]]

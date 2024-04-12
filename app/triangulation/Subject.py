@@ -3,7 +3,8 @@ from reactivex.subject import Subject
 from dao import DaoFactory
 from models import AudioItem, Module, Victim
 from .triangulation import triangulation
-import random
+import cProfile
+from pathlib import Path
 
 class FilterSubject(Subject):    
     daoFactory = DaoFactory()
@@ -15,7 +16,13 @@ class FilterSubject(Subject):
         super().__init__()
 
     def on_next(self, audioItems: List[AudioItem]):
+        profiler = cProfile.Profile()
+        profiler.enable()
+
         coordinates = triangulation(audioItems)
+
+        profiler.disable()
+        profiler.dump_stats(f'{Path(__file__).parent.parent}/metrics/profiling/tri.prof')
         victim = Victim(xCoordinate=coordinates[0], yCoordinate=coordinates[1])
         self.victimDao.insert(victim)
     
