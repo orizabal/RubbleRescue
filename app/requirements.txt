@@ -2,6 +2,7 @@ Flask==3.0.3
 Flask_Cors==4.0.0
 Flask_SocketIO==5.3.6
 matplotlib==3.8.3
+memory_profiler==0.61.0
 numpy==1.26.4
 paramiko==3.4.0
 pydub==0.25.1

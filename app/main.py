@@ -6,6 +6,7 @@ from filter import ModuleSubject
 from triangulation import FilterSubject
 from dao import DaoFactory
 from metrics import Metrics
+from memory_profiler import profile
 
 app = Flask(__name__)
 CORS(app, resources={r"/*":{"origins":"*"}})
@@ -66,7 +67,7 @@ def emitModules():
     
     socketio.emit('newModules', {'modules': modules})
 
-
+@profile
 def main():
     moduleEventSource = ModuleEventSource
     moduleSubject = ModuleSubject()
