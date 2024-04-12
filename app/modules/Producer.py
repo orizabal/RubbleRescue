@@ -46,7 +46,6 @@ def produce_events(observer, scheduler):
         groups[timestamp].append(audioItem)
     
     for g in groups.values():
-        # print(f"[ModuleEventSource] Producing event: {g}")
         observer.on_next(g) # Emit the next event
     observer.on_completed() # Indicate that no more events will be emitted
 

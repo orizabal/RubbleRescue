@@ -22,14 +22,10 @@ class EventHandler(LoggingEventHandler):
         self.observer = observer
 
     def dispatch(self, event: FileSystemEvent) -> None:
-        print(f"Event: {event.event_type}")
         if event.event_type == 'created':
-            print(f"New file: {event.src_path}")
             # client.get(event.src_path, rawAudioDir)
 
             filename = os.fsdecode(event.src_path).split('/')[-1].split('.')[0]
-            # if (filename[0] == '.'): # Filter out .DS_Store..... 
-            #     return
 
             # Convert RAW audio to wav
             rawAudio = np.fromfile(event.src_path, dtype=np.int16)
