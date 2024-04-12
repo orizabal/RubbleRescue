@@ -9,6 +9,7 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEvent, LoggingEventHandler
 import numpy as np
 from scipy.io.wavfile import write
+import cProfile
 
 class EventHandler(LoggingEventHandler):
     triangle = [[3, 44.81], [6, 50], [0, 50]]
@@ -73,11 +74,11 @@ def getArgs() -> tuple[str, str, str, str, str]:
 def produce_events(observer, scheduler):
     # piHost, piPort, piUser, piDir, piPass = getArgs()
     rawAudioDir = f'{Path(__file__).parent.parent.parent}/sd'
-    # wavDir = f'{Path(__file__).parent.parent.parent}/app/audio_data/'
     
     # Get files from Pi
     # with Paramiko(host=piHost, port=piPort, user=piUser, dir=piDir, password=piPass) as client:
         # This will run any time there is a new file added in the Pi directory
+    
     # Indent this when we use Paramiko -----
 
     # Initialize and start Observer (to watch Pi directory)
@@ -86,47 +87,5 @@ def produce_events(observer, scheduler):
     watchDog.schedule(eventHandler, rawAudioDir, recursive=True) # Replace './app/audio_data/' with the directory in which the Pi keeps its audio files
     watchDog.start()
     # -----
-
-    # moduleDao = DaoFactory.createModuleDao()
-    # audioItemDao = DaoFactory.createAudioItemDao()
-    # modules = {} # physical_id: db_id
-    # groups = {} # time: [audio1, audio2, audio3]
-
-    # iterate over each file in the 'audio_data' directory
-    # for file in os.listdir(rawAudioDir):
-    #     filename = os.fsdecode(file)
-    #     if (filename[0] == '.'): # Filter out .DS_Store..... 
-    #         continue
-
-    #     seconds, moduleId = filename.split("_")
-    #     # insert into modules table
-    #     if moduleId not in modules.keys():
-    #         module = Module(
-    #             physical_id=moduleId,
-    #             referencePoint=True,
-    #             xCoordinate=triangle[len(modules)][0],
-    #             yCoordinate=triangle[len(modules)][1]
-    #         )
-    #         modules[moduleId] = moduleDao.insert(module)
-        
-    #     # insert into audio_items table
-    #     timestamp = datetime.fromtimestamp(int(seconds))
-    #     audioItem = AudioItem(moduleId=modules[moduleId], recordedAt=timestamp, ref=filename)
-    #     id = audioItemDao.insert(audioItem)
-    #     audioItem.id = id
-
-    #     # put into groups of three to be passed along the pipeline
-    #     if timestamp not in groups.keys():
-    #         groups[timestamp] = []
-        
-    #     groups[timestamp].append(audioItem)
-    
-    # for g in groups.values():
-    #     # print("Now emitting events")
-    #     # print(f"[ModuleEventSource] Producing event: {g}")
-    #     if len(g) == 3:
-    #         observer.on_next(g) # Emit the next event
-    # observer.on_completed() # Indicate that no more events will be emitted
-
 
 source = create(produce_events)
