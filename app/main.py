@@ -9,7 +9,7 @@ from metrics import Metrics
 
 app = Flask(__name__)
 CORS(app, resources={r"/*":{"origins":"*"}})
-socketio = SocketIO(app, debug=False, cors_allowed_origins='*')
+socketio = SocketIO(app, debug=False, cors_allowed_origins='*', async_mode='threading')
 daoFactory = DaoFactory()
 metrics = Metrics("e2e")
 

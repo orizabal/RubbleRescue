@@ -48,7 +48,7 @@ class EventHandler(LoggingEventHandler):
             
             # insert into audio_items table
             timestamp = datetime.fromtimestamp(int(seconds))
-            audioItem = AudioItem(moduleId=self.modules[moduleId], recordedAt=timestamp, ref=filename)
+            audioItem = AudioItem(moduleId=self.modules[moduleId], recordedAt=timestamp, ref=f'./audio_data/{filename}.wav')
             id = self.audioItemDao.insert(audioItem)
             audioItem.id = id
 

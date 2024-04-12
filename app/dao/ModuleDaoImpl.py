@@ -23,8 +23,8 @@ class ModuleDaoImpl(ModuleDao):
 
     def insert(self, module: Module):
         with TransactionHandler() as cursor:
-            query = "INSERT INTO modules (reference_point, x_coordinate, y_coordinate) VALUES (?, ?, ?);"
-            cursor.execute(query, (module.referencePoint, module.xCoordinate, module.yCoordinate))
+            query = "INSERT INTO modules (reference_point, x_coordinate, y_coordinate, physical_id) VALUES (?, ?, ?, ?);"
+            cursor.execute(query, (module.referencePoint, module.xCoordinate, module.yCoordinate, module.physical_id))
             return cursor.lastrowid
 
 

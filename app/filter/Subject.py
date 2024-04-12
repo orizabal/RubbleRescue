@@ -17,19 +17,17 @@ class ModuleSubject(Subject):
         super().__init__()
 
     def on_next(self, audioItems: List[AudioItem]):
-        def processAudio(a: AudioItem):
-            audioPath = f'./audio_data/{a.ref}.wav'
-            _, data = wavfile.read(audioPath)
-            # Filter data
-            filter(48000, data, audioPath)
+        def processAudio(k, v):
+            filter(48000, v, k)
 
-            # update audioItem with audio
-            a.ref = audioPath
-            self.audioItemDao.update(a)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
+            dataList = {}
+            for a in audioItems:
+                _, data = wavfile.read(a.ref)
+                dataList[a.ref] = data
 
-        with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
             def threaded():
-                executor.map(processAudio, audioItems)
+                executor.map(processAudio, dataList.items())
                 executor.shutdown(wait=True)
 
             self.metrics.trackExecutionTime(threaded)
