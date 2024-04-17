@@ -81,7 +81,8 @@ def calculate_doa_coordinates(doa, mic_distance):
 
 
 def triangulation(audioItems: List[AudioItem]):
-    moduleDao = DaoFactory.createModuleDao()
+    # for a in audioItems:
+    #      print(f'Audio Item {a.ref} module = {a.moduleId}')
     signals = _audioToNpArray(audioItems)
     # calculate TDOA between pairs of microphones
     tau12, _ = gcc_phat(signals[0], signals[1], fs=16000, max_tau=MAX_TDOA)

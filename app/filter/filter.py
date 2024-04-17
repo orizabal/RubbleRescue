@@ -1,7 +1,7 @@
-# import matplotlib.pyplot as plt
-# import numpy as np
+import matplotlib.pyplot as plt
+import numpy as np
 
-from scipy.signal import ellip, lfilter # freqz,
+from scipy.signal import ellip, lfilter # , freqz
 import scipy.io.wavfile as wavf
 
 def ellip_bandpass(order, rp, rs, lowcut, highcut, fs):
@@ -16,18 +16,21 @@ def ellip_bandpass(order, rp, rs, lowcut, highcut, fs):
 
 
 def bandpass_filter(order, rp, rs, lowcut, highcut, fs, data):
-    b, a = ellip_bandpass(order=order, rp=rp, rs=rs, lowcut=lowcut, highcut=highcut, fs=fs)
+    # b, a = ellip_bandpass(order=order, rp=rp, rs=rs, lowcut=lowcut, highcut=highcut, fs=fs)
+    b = [-0.079795555662058162416094830859947251156, -0.001948674964559762856630698024673620239, -0.089775601349694311714699779258808121085,  0.007868104314545681932102638711512554437, -0.141883262108245894461688862975279334933,  0.056459639538432249139532359549775719643, -0.277399898077907880455938993691233918071,  0.564580352216893510686190893466118723154,  0.564580352216893510686190893466118723154, -0.277399898077907880455938993691233918071,  0.056459639538432249139532359549775719643, -0.141883262108245894461688862975279334933,  0.007868104314545681932102638711512554437, -0.089775601349694311714699779258808121085, -0.001948674964559762856630698024673620239, -0.079795555662058162416094830859947251156]
+    a = []
+    # print(f'b = {b}, a = {a}')
     y = lfilter(b, a, data)
     return y
 
 
 def filter(sr: int, data, source: str):
     # filter values from Matlab
-    order = 6
+    order = 8
 
     # In Hz
     fstop1 = 100
-    fpass2 = 17000
+    fpass2 = 7500
 
     # Get filter coeffs to plot freq response
     # b, a = ellip_bandpass(order=order, rp=0.05, rs=100, lowcut=fstop1, highcut=fpass2, fs=sr)

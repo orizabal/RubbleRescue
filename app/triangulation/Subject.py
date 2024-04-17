@@ -15,7 +15,7 @@ class FilterSubject(Subject):
     def __init__(self):
         super().__init__()
 
-    def on_next(self, audioItems: List[AudioItem]):
+    def on_next(self, audioItems: List[AudioItem], emit):
         profiler = cProfile.Profile()
         profiler.enable()
 
@@ -24,10 +24,25 @@ class FilterSubject(Subject):
         profiler.disable()
         profiler.dump_stats(f'{Path(__file__).parent.parent}/metrics/profiling/tri.prof')
         victim = Victim(xCoordinate=coordinates[0], yCoordinate=coordinates[1])
-        self.victimDao.insert(victim)
+        id = self.victimDao.insert(victim)
     
         # Re-emit event to be consumed by UI
         super().on_next(audioItems)
+
+        # Emit for frontend
+        victims = []
+        dbVictims = self.victimDao.get_all()
+        for v in dbVictims:
+            victims.append({
+                'victimId': v[0],
+                'xCoordinate': v[1],
+                'yCoordinate': v[2],
+                'foundAt': v[5],
+                'truePositive': bool(v[3])
+            })
+
+        emit('newVictims', {'victims': victims})
+        
     
     def on_error(self, err):
         print(f"[FilterSubject] Error: {err}")

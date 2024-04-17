@@ -32,15 +32,22 @@ class EventHandler(LoggingEventHandler):
             write(f'{Path(__file__).parent.parent.parent}/app/audio_data/{filename}.wav', self.sampleRate, rawAudio)
 
             seconds, moduleId = filename.split("_")
+            newModules = []
             # insert into modules table
             if moduleId not in self.modules.keys():
                 module = Module(
                     physical_id=moduleId,
                     referencePoint=True,
-                    xCoordinate=self.triangle[len(self.modules)][0],
-                    yCoordinate=self.triangle[len(self.modules)][1]
+                    xCoordinate=self.triangle[len(self.modules) % len(self.triangle)][0],
+                    yCoordinate=self.triangle[len(self.modules) % len(self.triangle)][1]
                 )
                 self.modules[moduleId] = self.moduleDao.insert(module)
+                print(f'Module {moduleId} x: {module.xCoordinate}, y: {module.yCoordinate}')
+                newModules.append({
+                    'id': self.modules[moduleId],
+                    'xCoordinate': module.xCoordinate,
+                    'yCoordinate': module.yCoordinate
+                })
             
             # insert into audio_items table
             timestamp = datetime.fromtimestamp(int(seconds))
@@ -55,7 +62,7 @@ class EventHandler(LoggingEventHandler):
             self.groups[timestamp].append(audioItem)
 
             if len(self.groups[timestamp]) == 3:
-                self.observer.on_next(self.groups[timestamp]) # Emit the next event
+                self.observer.on_next((self.groups[timestamp], newModules)) # Emit the next event
 
 def getArgs() -> tuple[str, str, str, str, str]:
     piHost, piUser, piDir, piPass = None, None, None, None

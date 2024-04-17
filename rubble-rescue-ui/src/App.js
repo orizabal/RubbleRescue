@@ -33,12 +33,12 @@ function App() {
 
     socket.on('newVictims', (data) => {
       console.log('New victims detected.');
-      setVictims([...victims, ...data['victims']]);
+      setVictims([...data['victims'], ...victims]);
     });
 
     socket.on('newModules', (data) => {
       console.log('New modules detected.');
-      setModules([...modules, ...data['modules']]);
+      setModules([...data['modules'], ...modules]);
     })
   }, []);
 
