@@ -10,7 +10,7 @@ function MapComponent(props) {
     const [map, setMap] = useState(null);
     const {isLoaded} = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: "" // TODO: Get key from envars
+        googleMapsApiKey: ""
     });
 
     let containerStyle = {
